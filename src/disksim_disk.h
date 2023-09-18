@@ -101,12 +101,12 @@
 #ifndef DISKSIM_DISK_H
 #define DISKSIM_DISK_H
 
-using namespace std;
+// using namespace std;
 
 
 #undef max
 #undef min
-#include <map>
+// #include <map>
 
 #include "disksim_stat.h"
 #include "disksim_iosim.h"
@@ -226,7 +226,7 @@ typedef struct seg {
    struct dm_mech_acctimes mech_acctimes; // storage for RPO calculation
 } segment;
 
-typedef std::map <double, segment *> CACHE_LBA_MAP;
+// typedef std::map <double, segment *> CACHE_LBA_MAP;
 
 
 typedef struct diskreq_t {
@@ -694,7 +694,7 @@ void dump_disk_buffer_seqments ( segment *seg, const char *msg );
 // write cache flush routines
 void disk_write_cache_periodic_flush (timer_event *timereq);
 void disk_write_cache_idletime_detected (void *idleworkparam, int idledevno);
-CACHE_LBA_MAP disk_buffer_sort_cache_segments_by_LBA( disk *currdisk );
+// CACHE_LBA_MAP disk_buffer_sort_cache_segments_by_LBA( disk *currdisk );
 double disk_calc_rpo_time( disk *currdisk, ioreq_event *curr, struct dm_mech_acctimes *mech_acctimes );
 
 #endif   /* DISKSIM_DISK_H */

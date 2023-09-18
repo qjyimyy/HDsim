@@ -364,7 +364,7 @@ void disksim_interface_dump_stats(
     // fprintf (stderr, "disksim_dump_stats done\n");
 }
 
-static int event_count = 0;
+static long event_count = 0;
 
 /* This is the callback for handling internal disksim events while running */
 /* as a slave of a system-level simulation.  "syssimtime" should be the    */

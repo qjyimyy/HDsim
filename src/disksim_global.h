@@ -369,6 +369,19 @@ typedef unsigned u_int;
 */
 #define DISKSIM_TIME_THRESHOLD 0.0013
 
+/**
+ * @brief 该结构体用来统计模拟器各个部分的时间
+ * 
+ */
+typedef struct timefliter {
+    time_t startTime;
+    time_t endTime;
+    double totalTime;           // disksim 用来模拟的时间，即程序运行时间
+    double print_response;      // 用来打印每条trace时延到 driver_response 中的时间
+} timefliter;
+
+extern timefliter *time_fliter;
+
 typedef union {
     u_int32_t value;
     char byte[4];
@@ -407,10 +420,10 @@ typedef struct ioreq_ev {
     int tagID;  // unique value that identifies this IO request;
     int bcount;
     int blkno;
-    u_int flags;
-    u_int busno;
-    u_int slotno;
-    int devno;
+    int flags;
+    unsigned int busno;
+    unsigned int slotno;
+    unsigned int devno;
     int opid;
     void *buf;
     int cause;
@@ -640,10 +653,10 @@ int disksim_initialize_disksim_structure(struct disksim *);
 int disksim_loadparams(char *inputfile, int synthgen);
 void disksim_setup_disksim(int argc, char **argv);
 void disksim_set_external_io_done_notify(disksim_iodone_notify_t);
-void disksim_cleanup_and_printstats(time_t startTime, time_t endTime);
+void disksim_cleanup_and_printstats(timefliter*);
 void disksim_cleanstats(void);
 void disksim_printstats2(void);
-void disksim_simulate_event(int);
+void disksim_simulate_event(long);
 void disksim_restore_from_checkpoint(char *filename);
 void disksim_run_simulation();
 

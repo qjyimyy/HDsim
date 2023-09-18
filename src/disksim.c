@@ -119,6 +119,7 @@
 #endif
 
 disksim_t *disksim = NULL;
+timefliter *time_fliter = NULL;
 SIM_RESULT sim_result_list[MAX_NUM_SIM_RESULTS];
 int numEventBlocksAllocated = 0;
 
@@ -563,7 +564,7 @@ void disksim_printstats2() {
     fprintf(outputfile, "------------------------------\n\n");
     fprintf(outputfile, "Total time of run (msec): %f\n", simtime);
     fprintf(outputfile, "Total requests simulated: %d\n", disksim->totalreqs - 1);
-    fprintf(outputfile, "Total events   simulated: %d\n", disksim->event_count);
+    fprintf(outputfile, "Total events   simulated: %ld\n", disksim->event_count);
     fprintf(outputfile, "Warm-up time (msec)     : %f\n", WARMUPTIME);
     fprintf(outputfile, "\nMemory Usage:\n");
     fprintf(outputfile, "Event Blocks Allocated    : %d\n", numEventBlocksAllocated);
@@ -835,7 +836,7 @@ char *getEventString(int eventType) {
     }
 }
 
-void disksim_simulate_event(int num) {
+void disksim_simulate_event(long num) {
     event *curr;
 
 #ifdef DEBUG_ON
@@ -1231,11 +1232,13 @@ void disksim_printstats() {
     disksim_printstats2();
 }
 
-void disksim_cleanup_and_printstats(time_t startTime, time_t endTime) {
+void disksim_cleanup_and_printstats(timefliter *time_fliter) {
+    time_fliter->totalTime = difftime(time_fliter->endTime, time_fliter->startTime);
     disksim_printstats();
-    fprintf(outputfile, "\nStart   Time: %s", asctime(localtime(&startTime)));
-    fprintf(outputfile, "\nEnd     Time: %s", asctime(localtime(&endTime)));
-    fprintf(outputfile, "\nElapsed Time (seconds): %f", difftime(endTime, startTime));
+    fprintf(outputfile, "\nStart   Time: %s", asctime(localtime(&time_fliter->startTime)));
+    fprintf(outputfile, "\nEnd     Time: %s", asctime(localtime(&time_fliter->endTime)));
+    fprintf(outputfile, "\nElapsed Time (seconds): %lf", time_fliter->totalTime);
+    fprintf(outputfile, "\nPrint Time (seconds): %lf", (double)time_fliter->print_response / 1000);
     fprintf(outputfile, "\nSimulation End");
     disksim_cleanup();
 }
