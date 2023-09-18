@@ -12,3 +12,4 @@ valid/*
 !valid/*.diskspecs
 !valid/*.model
 !valid/Makefile
+!valid/statdefs
