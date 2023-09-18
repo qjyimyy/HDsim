@@ -485,7 +485,7 @@ typedef struct disksim {
     void *startaddr;
     int totallength;
     int curroffset;
-    int event_count;    // Cherry: 模拟的总事件个数
+    long event_count;    // Cherry: 模拟的总事件个数
     int totalreqs;      // Cherry: 总的请求个数
     int closedios;
     double closedthinktime;

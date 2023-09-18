@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
     //  printf( "priority queue: listlen %d, numoutstanding %d\n", disksim->iodriver_info->overallqueue->priority.listlen, disksim->iodriver_info->overallqueue->priority.numoutstanding );
     //  printf( "timeout  queue: listlen %d, numoutstanding %d\n", disksim->iodriver_info->overallqueue->timeout.listlen, disksim->iodriver_info->overallqueue->timeout.numoutstanding );
 
-    // printf("event_count = %d \n", disksim->event_count);
+    printf("event_count = %ld \n", disksim->event_count);
     // printf("total_req = %d\n", disksim->totalreqs);
     // printf("extraqlen = %d\n", disksim->extraqlen);
 
