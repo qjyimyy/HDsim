@@ -12,6 +12,9 @@ struct cachedev {
     device *devices;
 } cachedev;
 
+typedef struct P {
+    int a;
+} P;
 
 int main() {
     struct cachedev *dev = (struct cachedev*)malloc(sizeof(struct cachedev));
@@ -26,6 +29,7 @@ int main() {
     d0->id = 1005;
     d0->len = 3;
 
+    P *p1 = NULL;
     printf("%d, %d, %d\n", dev->devices->devnum, dev->devices->id, dev->devices->len);
     return 0;
 }

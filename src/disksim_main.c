@@ -58,10 +58,10 @@
 #include "disksim_simresult.h"
 
 int main(int argc, char **argv) {
-    int len;
-    time_t startTime, endTime;
-
-    time(&startTime);
+    time_fliter = (timefliter*)(calloc(1, sizeof(struct timefliter)));
+    // time_t startTime, endTime;
+    // time(&startTime);
+    time(&time_fliter->startTime);
     setlinebuf(stdout);
     setlinebuf(stderr);
 
@@ -78,16 +78,17 @@ int main(int argc, char **argv) {
 
     // Cherry: 至此请求还没有切分为事件
     disksim_run_simulation();
-    time(&endTime);
+    // time(&endTime);
+    time(&time_fliter->endTime);
     //  printf( "base     queue: listlen %d, numoutstanding %d\n", disksim->iodriver_info->overallqueue->base.listlen, disksim->iodriver_info->overallqueue->base.numoutstanding );
     //  printf( "priority queue: listlen %d, numoutstanding %d\n", disksim->iodriver_info->overallqueue->priority.listlen, disksim->iodriver_info->overallqueue->priority.numoutstanding );
     //  printf( "timeout  queue: listlen %d, numoutstanding %d\n", disksim->iodriver_info->overallqueue->timeout.listlen, disksim->iodriver_info->overallqueue->timeout.numoutstanding );
 
-    // printf("event_count = %d \n", disksim->event_count);
+    printf("event_count = %ld \n", disksim->event_count);
     // printf("total_req = %d\n", disksim->totalreqs);
     // printf("extraqlen = %d\n", disksim->extraqlen);
 
-    disksim_cleanup_and_printstats(startTime, endTime);
+    disksim_cleanup_and_printstats(time_fliter);
     exit(0);
 }
 

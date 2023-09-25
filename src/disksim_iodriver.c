@@ -110,6 +110,8 @@
 #include "disksim_simresult.h"
 #include "disksim_stat.h"
 #include "modules/modules.h"
+#include <sys/time.h>
+#include <unistd.h>
 
 /* read-only globals used during readparams phase */
 static char *statdesc_emptyqueue = "Empty queue delay";
@@ -379,6 +381,8 @@ static void iodriver_add_to_intrp_eventlist(intr_event *intrp, event *curr, doub
     }
 }
 
+static struct timeval  startTime;
+static struct timeval  endTime;
 void iodriver_access_complete(int iodriverno, intr_event *intrp) {
     int i;
     int numreqs;
@@ -462,10 +466,14 @@ void iodriver_access_complete(int iodriverno, intr_event *intrp) {
     devno = req->devno;
     req = ioqueue_physical_access_done(iodrivers[iodriverno]->devices[devno].queue, req);
 
+    gettimeofday(&startTime, NULL);
     FILE *outputFile;
     outputFile = fopen("driver_response.txt", "a+");
     fprintf(outputFile, "%f ,opid %d, blkno %d, bcount %d %d\n", req->responsetime, req->opid, req->blkno, req->bcount, req->flags);
     fclose(outputFile);
+    gettimeofday(&endTime, NULL);
+    time_fliter->print_response += (((double)endTime.tv_sec * 1000 + (double)endTime.tv_usec / 1000) - ((double)startTime.tv_sec * 1000 + (double)startTime.tv_usec / 1000));
+    // printf("print time = %lf\n", time_fliter->print_response);
 
     if (ctl) {
         ctl->numoutstanding--;
