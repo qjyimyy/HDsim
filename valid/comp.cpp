@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
         simutionLatency.push_back(latency);
     }
 
-    while (5 == fscanf(inputFile, "%d, %f, %d, %d, %d\n", &time, &latency, &rw, &length, &per)) {
+while (4 == fscanf(inputFile, "%d, %f, %d, %d\n", &time, &latency, &rw, &length)) {
         realLatency.push_back(latency / 1000000);
     }
     std::fclose(outputFile);

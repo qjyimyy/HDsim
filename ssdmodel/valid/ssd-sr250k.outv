@@ -1,8 +1,13 @@
 
-*** Output file name: ssd-sr250k.outv
-*** Input trace format: ascii
-*** I/O trace used: 0
-*** Synthgen to be used?: 1
+**** Date                 : Sep 13 2023
+**** DiskSim version      : 4.0
+**** Output file name     : ssd-sr250k.outv
+**** Parameter File       : ssd-sr250k.parv
+**** Input trace format   : ascii
+**** I/O trace used       : 0
+**** Synthgen to be used? : yes
+
+**** Command Line Overrides specified: 0
 
 disksim_global Global {
 Init Seed = 42,
@@ -276,20 +281,26 @@ Sizes = [
    ]
 } # end of Synthio spec
 
-loadparams complete
-Initialized synthio process #0, first event at time 0.744525
-Kicking off cpu #0
-First event occurs at time 0.744525
+**** loadparams complete
+**** Running Simulation...
+0.000000: pf_initialize  Kicking off cpu #0
+0.000000: pf_initialize  Event occurs at time 0.744525, type CPU_EVENT (50), cpunum 0
 Initialization complete
+Running simulation...
 Simulation complete
 
 SIMULATION STATISTICS
----------------------
+------------------------------
 
-Total time of run:       124853.569311
+Total time of run (msec): 124853.569311
+Total requests simulated: 249999
+Total events   simulated: 4024958
+Warm-up time (msec)     : 0.000000
 
-Warm-up time:            0.000000
-
+Memory Usage:
+Event Blocks Allocated    : 64
+Event Blocks in Free Queue: 54
+Memory Leak (bytes)       : 2560
 
 PROCESS FLOW STATISTICS
 -----------------------
@@ -341,28 +352,28 @@ Process Number of I/O sleeps:    0
 Process Average I/O sleep time:  0.000000
 Process False idle time:         0.000000
 Process Read Time limits measured: 0
-Process Read Time limit duration average: 	0.000000
+Process Read Time limit duration average: 		0.000000
 Process Read Time limit duration std.dev.:	0.000000
 Process Read Time limit duration maximum:	0
 Process Read Time limit duration distribution
    <  5    < 10    < 20    < 30    < 40    < 60    <100    <150    <200    200+
       0       0       0       0       0       0       0       0       0       0 
 Process Write Time limits measured: 0
-Process Write Time limit duration average: 	0.000000
+Process Write Time limit duration average: 		0.000000
 Process Write Time limit duration std.dev.:	0.000000
 Process Write Time limit duration maximum:	0
 Process Write Time limit duration distribution
    <  5    < 10    < 20    < 30    < 40    < 60    <100    <150    <200    200+
       0       0       0       0       0       0       0       0       0       0 
 Process Read Time limits missed: 0
-Process Missed Read Time limit duration average: 	0.000000
+Process Missed Read Time limit duration average: 		0.000000
 Process Missed Read Time limit duration std.dev.:	0.000000
 Process Missed Read Time limit duration maximum:	0
 Process Missed Read Time limit duration distribution
    <  5    < 10    < 20    < 30    < 40    < 60    <100    <150    <200    200+
       0       0       0       0       0       0       0       0       0       0 
 Process Write Time limits missed: 0
-Process Missed Write Time limit duration average: 	0.000000
+Process Missed Write Time limit duration average: 		0.000000
 Process Missed Write Time limit duration std.dev.:	0.000000
 Process Missed Write Time limit duration maximum:	0
 Process Missed Write Time limit duration distribution
@@ -378,7 +389,8 @@ OVERALL I/O SYSTEM STATISTICS
 Overall I/O System Total Requests handled:	249999
 Overall I/O System Requests per second:   	2002.337629
 Overall I/O System Completely idle time:  	93925.972271   	0.752289
-Overall I/O System Response time average: 	0.132511
+Overall I/O System Response time average: 		0.132511
+Overall I/O System Response time Delay Fluctuation: 	0.000542
 Overall I/O System Response time std.dev.:	0.000072
 Overall I/O System Response time maximum:	0.135805
 Overall I/O System Response time distribution
@@ -387,28 +399,29 @@ Overall I/O System Response time distribution
 Overall I/O System Overlaps combined:     	0	0.000000
 Overall I/O System Read overlaps combined:	0	0.000000	0.000000
 Overall I/O System Critical Reads:      	     0  	0.000000
-Overall I/O System Critical Read Response time average: 	0.000000
+Overall I/O System Critical Read Response time average: 		0.000000
 Overall I/O System Critical Read Response time std.dev.:	0.000000
 Overall I/O System Critical Read Response time maximum:	0
 Overall I/O System Critical Read Response time distribution
    <  5    < 10    < 20    < 40    < 60    < 90    <120    <150    <200    200+
       0       0       0       0       0       0       0       0       0       0 
 Overall I/O System Non-Critical Reads:  	249999  	0.999996
-Overall I/O System Non-Critical Read Response time average: 	0.132511
+Overall I/O System Non-Critical Read Response time average: 		0.132511
+Overall I/O System Non-Critical Read Response time Delay Fluctuation: 	0.000542
 Overall I/O System Non-Critical Read Response time std.dev.:	0.000072
 Overall I/O System Non-Critical Read Response time maximum:	0.135805
 Overall I/O System Non-Critical Read Response time distribution
    <  5    < 10    < 20    < 40    < 60    < 90    <120    <150    <200    200+
  249999       0       0       0       0       0       0       0       0       0 
 Overall I/O System Critical Writes:     	     0  	0.000000
-Overall I/O System Critical Write Response time average: 	0.000000
+Overall I/O System Critical Write Response time average: 		0.000000
 Overall I/O System Critical Write Response time std.dev.:	0.000000
 Overall I/O System Critical Write Response time maximum:	0
 Overall I/O System Critical Write Response time distribution
    <  5    < 10    < 20    < 40    < 60    < 90    <120    <150    <200    200+
       0       0       0       0       0       0       0       0       0       0 
 Overall I/O System Non-Critical Writes: 	     0  	0.000000
-Overall I/O System Non-Critical Write Response time average: 	0.000000
+Overall I/O System Non-Critical Write Response time average: 		0.000000
 Overall I/O System Non-Critical Write Response time std.dev.:	0.000000
 Overall I/O System Non-Critical Write Response time maximum:	0
 Overall I/O System Non-Critical Write Response time distribution
@@ -432,7 +445,8 @@ Overall I/O System End # requests:          1
 Overall I/O System Average queue length:    0.265332
 Overall I/O System Maximum queue length:    4
 Overall I/O System End queued requests:     1
-Overall I/O System Queue time average: 	0.132511
+Overall I/O System Queue time average: 		0.132511
+Overall I/O System Queue time Delay Fluctuation: 	0.000542
 Overall I/O System Queue time std.dev.:	0.000072
 Overall I/O System Queue time maximum:	0.135805
 Overall I/O System Queue time distribution
@@ -442,7 +456,7 @@ Overall I/O System Avg # read requests:     0.265332
 Overall I/O System Max # read requests:     4
 Overall I/O System Avg # write requests:    0.000000
 Overall I/O System Max # write requests:    0
-Overall I/O System Physical access time average: 	0.000000
+Overall I/O System Physical access time average: 		0.000000
 Overall I/O System Physical access time std.dev.:	0.000000
 Overall I/O System Physical access time maximum:	0
 Overall I/O System Physical access time distribution
@@ -2197,13 +2211,14 @@ Overall I/O System Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 Overall I/O System Number of batches:  0
-Overall I/O System Batch size average: 	0.000000
+Overall I/O System Batch size average: 		0.000000
 Overall I/O System Batch size std.dev.:	0.000000
 Overall I/O System Batch size maximum:	0
 Overall I/O System Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-Overall I/O System Inter-arrival time average: 	0.499414
+Overall I/O System Inter-arrival time average: 		0.499414
+Overall I/O System Inter-arrival time Delay Fluctuation: 	0.578031
 Overall I/O System Inter-arrival time std.dev.:	0.288677
 Overall I/O System Inter-arrival time maximum:	0.999999
 Overall I/O System Inter-arrival time distribution
@@ -2247,50 +2262,55 @@ Overall I/O System Inter-arrival time distribution
  185  	      0  	0.000000  	1.000000
  190  	      0  	0.000000  	1.000000
  195  	      0  	0.000000  	1.000000
-Overall I/O System Read inter-arrival average: 	0.499414
+Overall I/O System Read inter-arrival average: 		0.499414
+Overall I/O System Read inter-arrival Delay Fluctuation: 	0.578031
 Overall I/O System Read inter-arrival std.dev.:	0.288677
 Overall I/O System Read inter-arrival maximum:	0.999999
 Overall I/O System Read inter-arrival distribution
    <  5    < 10    < 15    < 20    < 25    < 30    < 40    < 50    < 60     60+
  250000       0       0       0       0       0       0       0       0       0 
-Overall I/O System Write inter-arrival average: 	0.000000
+Overall I/O System Write inter-arrival average: 		0.000000
 Overall I/O System Write inter-arrival std.dev.:	0.000000
 Overall I/O System Write inter-arrival maximum:	0
 Overall I/O System Write inter-arrival distribution
    <  5    < 10    < 15    < 20    < 25    < 30    < 40    < 50    < 60     60+
       0       0       0       0       0       0       0       0       0       0 
 Overall I/O System Number of idle periods:  216837
-Overall I/O System Idle period length average: 	0.433164
+Overall I/O System Idle period length average: 		0.433164
+Overall I/O System Idle period length Delay Fluctuation: 	0.578342
 Overall I/O System Idle period length std.dev.:	0.250517
 Overall I/O System Idle period length maximum:	0.867492
 Overall I/O System Idle period length distribution
    <  5    < 10    < 15    < 20    < 25    < 30    < 40    < 50    < 60     60+
  216837       0       0       0       0       0       0       0       0       0 
-Overall I/O System Request size average: 	8.000000
+Overall I/O System Request size average: 		8.000000
+Overall I/O System Request size Delay Fluctuation: 	0.000000
 Overall I/O System Request size std.dev.:	0.000000
 Overall I/O System Request size maximum:	8
 Overall I/O System Request size distribution
    =  1    =  2    =  3    =  4    <  7    <  9    < 13    < 17    < 21     21+
       0       0       0       0       0  250000       0       0       0       0 
-Overall I/O System Read request size average: 	8.000000
+Overall I/O System Read request size average: 		8.000000
+Overall I/O System Read request size Delay Fluctuation: 	0.000000
 Overall I/O System Read request size std.dev.:	0.000000
 Overall I/O System Read request size maximum:	8
 Overall I/O System Read request size distribution
    =  1    =  2    =  3    =  4    <  7    <  9    < 13    < 17    < 21     21+
       0       0       0       0       0  250000       0       0       0       0 
-Overall I/O System Write request size average: 	0.000000
+Overall I/O System Write request size average: 		0.000000
 Overall I/O System Write request size std.dev.:	0.000000
 Overall I/O System Write request size maximum:	0
 Overall I/O System Write request size distribution
    =  1    =  2    =  3    =  4    <  7    <  9    < 13    < 17    < 21     21+
       0       0       0       0       0       0       0       0       0       0 
-Overall I/O System Instantaneous queue length average: 	1.141673
+Overall I/O System Instantaneous queue length average: 		1.141673
+Overall I/O System Instantaneous queue length Delay Fluctuation: 	0.328111
 Overall I/O System Instantaneous queue length std.dev.:	0.374595
 Overall I/O System Instantaneous queue length maximum:	4
 Overall I/O System Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
  216836   30993    2085      85       0       0       0       0       0       0 
-Overall I/O System Sub-optimal mapping penalty average: 	0.000000
+Overall I/O System Sub-optimal mapping penalty average: 		0.000000
 Overall I/O System Sub-optimal mapping penalty std.dev.:	0.000000
 Overall I/O System Sub-optimal mapping penalty maximum:	0
 Overall I/O System Sub-optimal mapping penalty distribution
@@ -2318,7 +2338,8 @@ System logorg #0 Response time distribution
 System logorg #0 Time-critical reads:  0
 System logorg #0 Time-critical writes: 0
 System logorg #0 Number of streaks:		1
-System logorg #0 Streak length average: 	250000.000000
+System logorg #0 Streak length average: 		250000.000000
+System logorg #0 Streak length Delay Fluctuation: 	0.000000
 System logorg #0 Streak length std.dev.:	0.000000
 System logorg #0 Streak length maximum:	250000
 System logorg #0 Streak length distribution
@@ -2361,7 +2382,8 @@ System logorg #0 Idle period length distribution
 System logorg #0 ssd Total Requests handled:	249999
 System logorg #0 ssd Requests per second:   	2002.337629
 System logorg #0 ssd Completely idle time:  	93925.763808   	0.752287
-System logorg #0 ssd Response time average: 	0.132511
+System logorg #0 ssd Response time average: 		0.132511
+System logorg #0 ssd Response time Delay Fluctuation: 	0.000542
 System logorg #0 ssd Response time std.dev.:	0.000072
 System logorg #0 ssd Response time maximum:	0.135805
 System logorg #0 ssd Response time distribution
@@ -2387,7 +2409,8 @@ System logorg #0 ssd End # requests:          0
 System logorg #0 ssd Average queue length:    0.000004
 System logorg #0 ssd Maximum queue length:    1
 System logorg #0 ssd End queued requests:     0
-System logorg #0 ssd Queue time average: 	0.000002
+System logorg #0 ssd Queue time average: 		0.000002
+System logorg #0 ssd Queue time Delay Fluctuation: 	23.901184
 System logorg #0 ssd Queue time std.dev.:	0.000054
 System logorg #0 ssd Queue time maximum:	0.003298
 System logorg #0 ssd Queue time distribution
@@ -2397,7 +2420,8 @@ System logorg #0 ssd Avg # read requests:     0.265332
 System logorg #0 ssd Max # read requests:     4
 System logorg #0 ssd Avg # write requests:    0.000000
 System logorg #0 ssd Max # write requests:    0
-System logorg #0 ssd Physical access time average: 	0.132509
+System logorg #0 ssd Physical access time average: 		0.132509
+System logorg #0 ssd Physical access time Delay Fluctuation: 	0.000361
 System logorg #0 ssd Physical access time std.dev.:	0.000048
 System logorg #0 ssd Physical access time maximum:	0.134411
 System logorg #0 ssd Physical access time distribution
@@ -4152,25 +4176,27 @@ System logorg #0 ssd Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 System logorg #0 ssd Number of batches:  0
-System logorg #0 ssd Batch size average: 	0.000000
+System logorg #0 ssd Batch size average: 		0.000000
 System logorg #0 ssd Batch size std.dev.:	0.000000
 System logorg #0 ssd Batch size maximum:	0
 System logorg #0 ssd Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-System logorg #0 ssd Instantaneous queue length average: 	1.000000
+System logorg #0 ssd Instantaneous queue length average: 		1.000000
+System logorg #0 ssd Instantaneous queue length Delay Fluctuation: 	0.000000
 System logorg #0 ssd Instantaneous queue length std.dev.:	0.000000
 System logorg #0 ssd Instantaneous queue length maximum:	1
 System logorg #0 ssd Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
  249999       0       0       0       0       0       0       0       0       0 
-System logorg #0 ssd Sub-optimal mapping penalty average: 	0.000000
+System logorg #0 ssd Sub-optimal mapping penalty average: 		0.000000
 System logorg #0 ssd Sub-optimal mapping penalty std.dev.:	0.000000
 System logorg #0 ssd Sub-optimal mapping penalty maximum:	0
 System logorg #0 ssd Sub-optimal mapping penalty distribution
    = -1    =  0    =  1    =  2    =  3    =  4    < 10    < 20    <  4      4+
       0       0       0       0       0       0       0       0       0       0 
-System logorg #0 ssd Access time average: 	0.130600
+System logorg #0 ssd Access time average: 		0.130600
+System logorg #0 ssd Access time Delay Fluctuation: 	0.000000
 System logorg #0 ssd Access time std.dev.:	0.000000
 System logorg #0 ssd Access time maximum:	0.130600
 System logorg #0 ssd Access time distribution
@@ -4185,7 +4211,8 @@ IODRIVER STATISTICS
 IOdriver Total Requests handled:	249999
 IOdriver Requests per second:   	2002.337629
 IOdriver Completely idle time:  	93925.972271   	0.752289
-IOdriver Response time average: 	0.132511
+IOdriver Response time average: 		0.132511
+IOdriver Response time Delay Fluctuation: 	0.000542
 IOdriver Response time std.dev.:	0.000072
 IOdriver Response time maximum:	0.135805
 IOdriver Response time distribution
@@ -4211,7 +4238,7 @@ IOdriver End # requests:          1
 IOdriver Average queue length:    0.000000
 IOdriver Maximum queue length:    1
 IOdriver End queued requests:     0
-IOdriver Queue time average: 	0.000000
+IOdriver Queue time average: 		0.000000
 IOdriver Queue time std.dev.:	0.000000
 IOdriver Queue time maximum:	0
 IOdriver Queue time distribution
@@ -4221,7 +4248,8 @@ IOdriver Avg # read requests:     0.265332
 IOdriver Max # read requests:     4
 IOdriver Avg # write requests:    0.000000
 IOdriver Max # write requests:    0
-IOdriver Physical access time average: 	0.132511
+IOdriver Physical access time average: 		0.132511
+IOdriver Physical access time Delay Fluctuation: 	0.000542
 IOdriver Physical access time std.dev.:	0.000072
 IOdriver Physical access time maximum:	0.135805
 IOdriver Physical access time distribution
@@ -5976,59 +6004,63 @@ IOdriver Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 IOdriver Number of batches:  0
-IOdriver Batch size average: 	0.000000
+IOdriver Batch size average: 		0.000000
 IOdriver Batch size std.dev.:	0.000000
 IOdriver Batch size maximum:	0
 IOdriver Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-IOdriver Inter-arrival time average: 	0.000000
+IOdriver Inter-arrival time average: 		0.000000
 IOdriver Inter-arrival time std.dev.:	0.000000
 IOdriver Inter-arrival time maximum:	0
-IOdriver Read inter-arrival average: 	0.000000
+IOdriver Read inter-arrival average: 		0.000000
 IOdriver Read inter-arrival std.dev.:	0.000000
 IOdriver Read inter-arrival maximum:	0
 IOdriver Read inter-arrival distribution
    <  5    < 10    < 15    < 20    < 25    < 30    < 40    < 50    < 60     60+
       0       0       0       0       0       0       0       0       0       0 
-IOdriver Write inter-arrival average: 	0.000000
+IOdriver Write inter-arrival average: 		0.000000
 IOdriver Write inter-arrival std.dev.:	0.000000
 IOdriver Write inter-arrival maximum:	0
 IOdriver Write inter-arrival distribution
    <  5    < 10    < 15    < 20    < 25    < 30    < 40    < 50    < 60     60+
       0       0       0       0       0       0       0       0       0       0 
 IOdriver Number of idle periods:  216837
-IOdriver Idle period length average: 	0.433164
+IOdriver Idle period length average: 		0.433164
+IOdriver Idle period length Delay Fluctuation: 	0.578342
 IOdriver Idle period length std.dev.:	0.250517
 IOdriver Idle period length maximum:	0.867492
 IOdriver Idle period length distribution
    <  5    < 10    < 15    < 20    < 25    < 30    < 40    < 50    < 60     60+
  216837       0       0       0       0       0       0       0       0       0 
-IOdriver Request size average: 	8.000000
+IOdriver Request size average: 		8.000000
+IOdriver Request size Delay Fluctuation: 	0.000000
 IOdriver Request size std.dev.:	0.000000
 IOdriver Request size maximum:	8
 IOdriver Request size distribution
    =  1    =  2    =  3    =  4    <  7    <  9    < 13    < 17    < 21     21+
       0       0       0       0       0  250000       0       0       0       0 
-IOdriver Read request size average: 	8.000000
+IOdriver Read request size average: 		8.000000
+IOdriver Read request size Delay Fluctuation: 	0.000000
 IOdriver Read request size std.dev.:	0.000000
 IOdriver Read request size maximum:	8
 IOdriver Read request size distribution
    =  1    =  2    =  3    =  4    <  7    <  9    < 13    < 17    < 21     21+
       0       0       0       0       0  250000       0       0       0       0 
-IOdriver Write request size average: 	0.000000
+IOdriver Write request size average: 		0.000000
 IOdriver Write request size std.dev.:	0.000000
 IOdriver Write request size maximum:	0
 IOdriver Write request size distribution
    =  1    =  2    =  3    =  4    <  7    <  9    < 13    < 17    < 21     21+
       0       0       0       0       0       0       0       0       0       0 
-IOdriver Instantaneous queue length average: 	1.000000
+IOdriver Instantaneous queue length average: 		1.000000
+IOdriver Instantaneous queue length Delay Fluctuation: 	0.000000
 IOdriver Instantaneous queue length std.dev.:	0.000000
 IOdriver Instantaneous queue length maximum:	1
 IOdriver Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
  250000       0       0       0       0       0       0       0       0       0 
-IOdriver Sub-optimal mapping penalty average: 	0.000000
+IOdriver Sub-optimal mapping penalty average: 		0.000000
 IOdriver Sub-optimal mapping penalty std.dev.:	0.000000
 IOdriver Sub-optimal mapping penalty maximum:	0
 IOdriver Sub-optimal mapping penalty distribution
@@ -6045,18 +6077,14 @@ SIMPLEDISK STATISTICS
 
 No simpledisk requests encountered
 
-MEMS STATISTICS
-----------------
-
-No mems requests encountered (1)
-
 SSD STATISTICS
 ---------------------
 
 ssd Total Requests handled:	249999
 ssd Requests per second:   	2002.337629
 ssd Completely idle time:  	93925.763808   	0.752287
-ssd Response time average: 	0.132511
+ssd Response time average: 		0.132511
+ssd Response time Delay Fluctuation: 	0.000542
 ssd Response time std.dev.:	0.000072
 ssd Response time maximum:	0.135805
 ssd Response time distribution
@@ -6082,7 +6110,8 @@ ssd End # requests:          0
 ssd Average queue length:    0.000004
 ssd Maximum queue length:    1
 ssd End queued requests:     0
-ssd Queue time average: 	0.000002
+ssd Queue time average: 		0.000002
+ssd Queue time Delay Fluctuation: 	23.901184
 ssd Queue time std.dev.:	0.000054
 ssd Queue time maximum:	0.003298
 ssd Queue time distribution
@@ -6092,7 +6121,8 @@ ssd Avg # read requests:     0.265332
 ssd Max # read requests:     4
 ssd Avg # write requests:    0.000000
 ssd Max # write requests:    0
-ssd Physical access time average: 	0.132509
+ssd Physical access time average: 		0.132509
+ssd Physical access time Delay Fluctuation: 	0.000361
 ssd Physical access time std.dev.:	0.000048
 ssd Physical access time maximum:	0.134411
 ssd Physical access time distribution
@@ -7847,25 +7877,27 @@ ssd Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd Number of batches:  0
-ssd Batch size average: 	0.000000
+ssd Batch size average: 		0.000000
 ssd Batch size std.dev.:	0.000000
 ssd Batch size maximum:	0
 ssd Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd Instantaneous queue length average: 	1.000000
+ssd Instantaneous queue length average: 		1.000000
+ssd Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd Instantaneous queue length std.dev.:	0.000000
 ssd Instantaneous queue length maximum:	1
 ssd Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
  249999       0       0       0       0       0       0       0       0       0 
-ssd Sub-optimal mapping penalty average: 	0.000000
+ssd Sub-optimal mapping penalty average: 		0.000000
 ssd Sub-optimal mapping penalty std.dev.:	0.000000
 ssd Sub-optimal mapping penalty maximum:	0
 ssd Sub-optimal mapping penalty distribution
    = -1    =  0    =  1    =  2    =  3    =  4    < 10    < 20    <  4      4+
       0       0       0       0       0       0       0       0       0       0 
-ssd Access time average: 	0.130600
+ssd Access time average: 		0.130600
+ssd Access time Delay Fluctuation: 	0.000000
 ssd Access time std.dev.:	0.000000
 ssd Access time maximum:	0.130600
 ssd Access time distribution
@@ -8080,7 +8112,8 @@ ssd #0:
 ssd #0 Total Requests handled:	249999
 ssd #0 Requests per second:   	2002.337629
 ssd #0 Completely idle time:  	93925.763808   	0.752287
-ssd #0 Response time average: 	0.132511
+ssd #0 Response time average: 		0.132511
+ssd #0 Response time Delay Fluctuation: 	0.000542
 ssd #0 Response time std.dev.:	0.000072
 ssd #0 Response time maximum:	0.135805
 ssd #0 Response time distribution
@@ -8106,7 +8139,8 @@ ssd #0 End # requests:          0
 ssd #0 Average queue length:    0.000004
 ssd #0 Maximum queue length:    1
 ssd #0 End queued requests:     0
-ssd #0 Queue time average: 	0.000002
+ssd #0 Queue time average: 		0.000002
+ssd #0 Queue time Delay Fluctuation: 	23.901184
 ssd #0 Queue time std.dev.:	0.000054
 ssd #0 Queue time maximum:	0.003298
 ssd #0 Queue time distribution
@@ -8116,7 +8150,8 @@ ssd #0 Avg # read requests:     0.265332
 ssd #0 Max # read requests:     4
 ssd #0 Avg # write requests:    0.000000
 ssd #0 Max # write requests:    0
-ssd #0 Physical access time average: 	0.132509
+ssd #0 Physical access time average: 		0.132509
+ssd #0 Physical access time Delay Fluctuation: 	0.000361
 ssd #0 Physical access time std.dev.:	0.000048
 ssd #0 Physical access time maximum:	0.134411
 ssd #0 Physical access time distribution
@@ -9871,19 +9906,20 @@ ssd #0 Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd #0 Number of batches:  0
-ssd #0 Batch size average: 	0.000000
+ssd #0 Batch size average: 		0.000000
 ssd #0 Batch size std.dev.:	0.000000
 ssd #0 Batch size maximum:	0
 ssd #0 Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0 Instantaneous queue length average: 	1.000000
+ssd #0 Instantaneous queue length average: 		1.000000
+ssd #0 Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd #0 Instantaneous queue length std.dev.:	0.000000
 ssd #0 Instantaneous queue length maximum:	1
 ssd #0 Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
  249999       0       0       0       0       0       0       0       0       0 
-ssd #0 Sub-optimal mapping penalty average: 	0.000000
+ssd #0 Sub-optimal mapping penalty average: 		0.000000
 ssd #0 Sub-optimal mapping penalty std.dev.:	0.000000
 ssd #0 Sub-optimal mapping penalty maximum:	0
 ssd #0 Sub-optimal mapping penalty distribution
@@ -9892,7 +9928,8 @@ ssd #0 Sub-optimal mapping penalty distribution
 ssd #0  elem #0 Total Requests handled:	31250
 ssd #0  elem #0 Requests per second:   	250.293205
 ssd #0  elem #0 Completely idle time:  	120771.308037   	0.967304
-ssd #0  elem #0 Response time average: 	0.130600
+ssd #0  elem #0 Response time average: 		0.130600
+ssd #0  elem #0 Response time Delay Fluctuation: 	0.000000
 ssd #0  elem #0 Response time std.dev.:	0.000000
 ssd #0  elem #0 Response time maximum:	0.130600
 ssd #0  elem #0 Response time distribution
@@ -9918,7 +9955,7 @@ ssd #0  elem #0 End # requests:          0
 ssd #0  elem #0 Average queue length:    0.000000
 ssd #0  elem #0 Maximum queue length:    1
 ssd #0  elem #0 End queued requests:     0
-ssd #0  elem #0 Queue time average: 	0.000000
+ssd #0  elem #0 Queue time average: 		0.000000
 ssd #0  elem #0 Queue time std.dev.:	0.000000
 ssd #0  elem #0 Queue time maximum:	0
 ssd #0  elem #0 Queue time distribution
@@ -9928,7 +9965,8 @@ ssd #0  elem #0 Avg # read requests:     0.032688
 ssd #0  elem #0 Max # read requests:     1
 ssd #0  elem #0 Avg # write requests:    0.000000
 ssd #0  elem #0 Max # write requests:    0
-ssd #0  elem #0 Physical access time average: 	0.130600
+ssd #0  elem #0 Physical access time average: 		0.130600
+ssd #0  elem #0 Physical access time Delay Fluctuation: 	0.000000
 ssd #0  elem #0 Physical access time std.dev.:	0.000000
 ssd #0  elem #0 Physical access time maximum:	0.130600
 ssd #0  elem #0 Physical access time distribution
@@ -11683,19 +11721,20 @@ ssd #0  elem #0 Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd #0  elem #0 Number of batches:  0
-ssd #0  elem #0 Batch size average: 	0.000000
+ssd #0  elem #0 Batch size average: 		0.000000
 ssd #0  elem #0 Batch size std.dev.:	0.000000
 ssd #0  elem #0 Batch size maximum:	0
 ssd #0  elem #0 Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #0 Instantaneous queue length average: 	1.000000
+ssd #0  elem #0 Instantaneous queue length average: 		1.000000
+ssd #0  elem #0 Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd #0  elem #0 Instantaneous queue length std.dev.:	0.000000
 ssd #0  elem #0 Instantaneous queue length maximum:	1
 ssd #0  elem #0 Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
   31250       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #0 Sub-optimal mapping penalty average: 	0.000000
+ssd #0  elem #0 Sub-optimal mapping penalty average: 		0.000000
 ssd #0  elem #0 Sub-optimal mapping penalty std.dev.:	0.000000
 ssd #0  elem #0 Sub-optimal mapping penalty maximum:	0
 ssd #0  elem #0 Sub-optimal mapping penalty distribution
@@ -11704,7 +11743,8 @@ ssd #0  elem #0 Sub-optimal mapping penalty distribution
 ssd #0  elem #1 Total Requests handled:	31250
 ssd #0  elem #1 Requests per second:   	250.293205
 ssd #0  elem #1 Completely idle time:  	120771.458404   	0.967305
-ssd #0  elem #1 Response time average: 	0.130600
+ssd #0  elem #1 Response time average: 		0.130600
+ssd #0  elem #1 Response time Delay Fluctuation: 	0.000000
 ssd #0  elem #1 Response time std.dev.:	0.000000
 ssd #0  elem #1 Response time maximum:	0.130600
 ssd #0  elem #1 Response time distribution
@@ -11730,7 +11770,7 @@ ssd #0  elem #1 End # requests:          0
 ssd #0  elem #1 Average queue length:    0.000000
 ssd #0  elem #1 Maximum queue length:    1
 ssd #0  elem #1 End queued requests:     0
-ssd #0  elem #1 Queue time average: 	0.000000
+ssd #0  elem #1 Queue time average: 		0.000000
 ssd #0  elem #1 Queue time std.dev.:	0.000000
 ssd #0  elem #1 Queue time maximum:	0
 ssd #0  elem #1 Queue time distribution
@@ -11740,7 +11780,8 @@ ssd #0  elem #1 Avg # read requests:     0.032688
 ssd #0  elem #1 Max # read requests:     1
 ssd #0  elem #1 Avg # write requests:    0.000000
 ssd #0  elem #1 Max # write requests:    0
-ssd #0  elem #1 Physical access time average: 	0.130600
+ssd #0  elem #1 Physical access time average: 		0.130600
+ssd #0  elem #1 Physical access time Delay Fluctuation: 	0.000000
 ssd #0  elem #1 Physical access time std.dev.:	0.000000
 ssd #0  elem #1 Physical access time maximum:	0.130600
 ssd #0  elem #1 Physical access time distribution
@@ -13495,19 +13536,20 @@ ssd #0  elem #1 Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd #0  elem #1 Number of batches:  0
-ssd #0  elem #1 Batch size average: 	0.000000
+ssd #0  elem #1 Batch size average: 		0.000000
 ssd #0  elem #1 Batch size std.dev.:	0.000000
 ssd #0  elem #1 Batch size maximum:	0
 ssd #0  elem #1 Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #1 Instantaneous queue length average: 	1.000000
+ssd #0  elem #1 Instantaneous queue length average: 		1.000000
+ssd #0  elem #1 Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd #0  elem #1 Instantaneous queue length std.dev.:	0.000000
 ssd #0  elem #1 Instantaneous queue length maximum:	1
 ssd #0  elem #1 Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
   31250       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #1 Sub-optimal mapping penalty average: 	0.000000
+ssd #0  elem #1 Sub-optimal mapping penalty average: 		0.000000
 ssd #0  elem #1 Sub-optimal mapping penalty std.dev.:	0.000000
 ssd #0  elem #1 Sub-optimal mapping penalty maximum:	0
 ssd #0  elem #1 Sub-optimal mapping penalty distribution
@@ -13516,7 +13558,8 @@ ssd #0  elem #1 Sub-optimal mapping penalty distribution
 ssd #0  elem #2 Total Requests handled:	31250
 ssd #0  elem #2 Requests per second:   	250.293205
 ssd #0  elem #2 Completely idle time:  	120771.461543   	0.967305
-ssd #0  elem #2 Response time average: 	0.130600
+ssd #0  elem #2 Response time average: 		0.130600
+ssd #0  elem #2 Response time Delay Fluctuation: 	0.000000
 ssd #0  elem #2 Response time std.dev.:	0.000000
 ssd #0  elem #2 Response time maximum:	0.130600
 ssd #0  elem #2 Response time distribution
@@ -13542,7 +13585,7 @@ ssd #0  elem #2 End # requests:          0
 ssd #0  elem #2 Average queue length:    0.000000
 ssd #0  elem #2 Maximum queue length:    1
 ssd #0  elem #2 End queued requests:     0
-ssd #0  elem #2 Queue time average: 	0.000000
+ssd #0  elem #2 Queue time average: 		0.000000
 ssd #0  elem #2 Queue time std.dev.:	0.000000
 ssd #0  elem #2 Queue time maximum:	0
 ssd #0  elem #2 Queue time distribution
@@ -13552,7 +13595,8 @@ ssd #0  elem #2 Avg # read requests:     0.032688
 ssd #0  elem #2 Max # read requests:     1
 ssd #0  elem #2 Avg # write requests:    0.000000
 ssd #0  elem #2 Max # write requests:    0
-ssd #0  elem #2 Physical access time average: 	0.130600
+ssd #0  elem #2 Physical access time average: 		0.130600
+ssd #0  elem #2 Physical access time Delay Fluctuation: 	0.000000
 ssd #0  elem #2 Physical access time std.dev.:	0.000000
 ssd #0  elem #2 Physical access time maximum:	0.130600
 ssd #0  elem #2 Physical access time distribution
@@ -15307,19 +15351,20 @@ ssd #0  elem #2 Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd #0  elem #2 Number of batches:  0
-ssd #0  elem #2 Batch size average: 	0.000000
+ssd #0  elem #2 Batch size average: 		0.000000
 ssd #0  elem #2 Batch size std.dev.:	0.000000
 ssd #0  elem #2 Batch size maximum:	0
 ssd #0  elem #2 Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #2 Instantaneous queue length average: 	1.000000
+ssd #0  elem #2 Instantaneous queue length average: 		1.000000
+ssd #0  elem #2 Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd #0  elem #2 Instantaneous queue length std.dev.:	0.000000
 ssd #0  elem #2 Instantaneous queue length maximum:	1
 ssd #0  elem #2 Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
   31250       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #2 Sub-optimal mapping penalty average: 	0.000000
+ssd #0  elem #2 Sub-optimal mapping penalty average: 		0.000000
 ssd #0  elem #2 Sub-optimal mapping penalty std.dev.:	0.000000
 ssd #0  elem #2 Sub-optimal mapping penalty maximum:	0
 ssd #0  elem #2 Sub-optimal mapping penalty distribution
@@ -15328,7 +15373,8 @@ ssd #0  elem #2 Sub-optimal mapping penalty distribution
 ssd #0  elem #3 Total Requests handled:	31250
 ssd #0  elem #3 Requests per second:   	250.293205
 ssd #0  elem #3 Completely idle time:  	120771.489154   	0.967305
-ssd #0  elem #3 Response time average: 	0.130600
+ssd #0  elem #3 Response time average: 		0.130600
+ssd #0  elem #3 Response time Delay Fluctuation: 	0.000000
 ssd #0  elem #3 Response time std.dev.:	0.000000
 ssd #0  elem #3 Response time maximum:	0.130600
 ssd #0  elem #3 Response time distribution
@@ -15354,7 +15400,7 @@ ssd #0  elem #3 End # requests:          0
 ssd #0  elem #3 Average queue length:    0.000000
 ssd #0  elem #3 Maximum queue length:    1
 ssd #0  elem #3 End queued requests:     0
-ssd #0  elem #3 Queue time average: 	0.000000
+ssd #0  elem #3 Queue time average: 		0.000000
 ssd #0  elem #3 Queue time std.dev.:	0.000000
 ssd #0  elem #3 Queue time maximum:	0
 ssd #0  elem #3 Queue time distribution
@@ -15364,7 +15410,8 @@ ssd #0  elem #3 Avg # read requests:     0.032688
 ssd #0  elem #3 Max # read requests:     1
 ssd #0  elem #3 Avg # write requests:    0.000000
 ssd #0  elem #3 Max # write requests:    0
-ssd #0  elem #3 Physical access time average: 	0.130600
+ssd #0  elem #3 Physical access time average: 		0.130600
+ssd #0  elem #3 Physical access time Delay Fluctuation: 	0.000000
 ssd #0  elem #3 Physical access time std.dev.:	0.000000
 ssd #0  elem #3 Physical access time maximum:	0.130600
 ssd #0  elem #3 Physical access time distribution
@@ -17119,19 +17166,20 @@ ssd #0  elem #3 Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd #0  elem #3 Number of batches:  0
-ssd #0  elem #3 Batch size average: 	0.000000
+ssd #0  elem #3 Batch size average: 		0.000000
 ssd #0  elem #3 Batch size std.dev.:	0.000000
 ssd #0  elem #3 Batch size maximum:	0
 ssd #0  elem #3 Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #3 Instantaneous queue length average: 	1.000000
+ssd #0  elem #3 Instantaneous queue length average: 		1.000000
+ssd #0  elem #3 Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd #0  elem #3 Instantaneous queue length std.dev.:	0.000000
 ssd #0  elem #3 Instantaneous queue length maximum:	1
 ssd #0  elem #3 Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
   31250       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #3 Sub-optimal mapping penalty average: 	0.000000
+ssd #0  elem #3 Sub-optimal mapping penalty average: 		0.000000
 ssd #0  elem #3 Sub-optimal mapping penalty std.dev.:	0.000000
 ssd #0  elem #3 Sub-optimal mapping penalty maximum:	0
 ssd #0  elem #3 Sub-optimal mapping penalty distribution
@@ -17140,7 +17188,8 @@ ssd #0  elem #3 Sub-optimal mapping penalty distribution
 ssd #0  elem #4 Total Requests handled:	31250
 ssd #0  elem #4 Requests per second:   	250.293205
 ssd #0  elem #4 Completely idle time:  	120772.108941   	0.967310
-ssd #0  elem #4 Response time average: 	0.130600
+ssd #0  elem #4 Response time average: 		0.130600
+ssd #0  elem #4 Response time Delay Fluctuation: 	0.000000
 ssd #0  elem #4 Response time std.dev.:	0.000000
 ssd #0  elem #4 Response time maximum:	0.130600
 ssd #0  elem #4 Response time distribution
@@ -17166,7 +17215,7 @@ ssd #0  elem #4 End # requests:          0
 ssd #0  elem #4 Average queue length:    0.000000
 ssd #0  elem #4 Maximum queue length:    1
 ssd #0  elem #4 End queued requests:     0
-ssd #0  elem #4 Queue time average: 	0.000000
+ssd #0  elem #4 Queue time average: 		0.000000
 ssd #0  elem #4 Queue time std.dev.:	0.000000
 ssd #0  elem #4 Queue time maximum:	0
 ssd #0  elem #4 Queue time distribution
@@ -17176,7 +17225,8 @@ ssd #0  elem #4 Avg # read requests:     0.032688
 ssd #0  elem #4 Max # read requests:     1
 ssd #0  elem #4 Avg # write requests:    0.000000
 ssd #0  elem #4 Max # write requests:    0
-ssd #0  elem #4 Physical access time average: 	0.130600
+ssd #0  elem #4 Physical access time average: 		0.130600
+ssd #0  elem #4 Physical access time Delay Fluctuation: 	0.000000
 ssd #0  elem #4 Physical access time std.dev.:	0.000000
 ssd #0  elem #4 Physical access time maximum:	0.130600
 ssd #0  elem #4 Physical access time distribution
@@ -18931,19 +18981,20 @@ ssd #0  elem #4 Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd #0  elem #4 Number of batches:  0
-ssd #0  elem #4 Batch size average: 	0.000000
+ssd #0  elem #4 Batch size average: 		0.000000
 ssd #0  elem #4 Batch size std.dev.:	0.000000
 ssd #0  elem #4 Batch size maximum:	0
 ssd #0  elem #4 Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #4 Instantaneous queue length average: 	1.000000
+ssd #0  elem #4 Instantaneous queue length average: 		1.000000
+ssd #0  elem #4 Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd #0  elem #4 Instantaneous queue length std.dev.:	0.000000
 ssd #0  elem #4 Instantaneous queue length maximum:	1
 ssd #0  elem #4 Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
   31250       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #4 Sub-optimal mapping penalty average: 	0.000000
+ssd #0  elem #4 Sub-optimal mapping penalty average: 		0.000000
 ssd #0  elem #4 Sub-optimal mapping penalty std.dev.:	0.000000
 ssd #0  elem #4 Sub-optimal mapping penalty maximum:	0
 ssd #0  elem #4 Sub-optimal mapping penalty distribution
@@ -18952,7 +19003,8 @@ ssd #0  elem #4 Sub-optimal mapping penalty distribution
 ssd #0  elem #5 Total Requests handled:	31249
 ssd #0  elem #5 Requests per second:   	250.285195
 ssd #0  elem #5 Completely idle time:  	120769.778347   	0.967291
-ssd #0  elem #5 Response time average: 	0.130600
+ssd #0  elem #5 Response time average: 		0.130600
+ssd #0  elem #5 Response time Delay Fluctuation: 	0.000000
 ssd #0  elem #5 Response time std.dev.:	0.000000
 ssd #0  elem #5 Response time maximum:	0.130600
 ssd #0  elem #5 Response time distribution
@@ -18978,7 +19030,7 @@ ssd #0  elem #5 End # requests:          0
 ssd #0  elem #5 Average queue length:    0.000000
 ssd #0  elem #5 Maximum queue length:    1
 ssd #0  elem #5 End queued requests:     0
-ssd #0  elem #5 Queue time average: 	0.000000
+ssd #0  elem #5 Queue time average: 		0.000000
 ssd #0  elem #5 Queue time std.dev.:	0.000000
 ssd #0  elem #5 Queue time maximum:	0
 ssd #0  elem #5 Queue time distribution
@@ -18988,7 +19040,8 @@ ssd #0  elem #5 Avg # read requests:     0.032687
 ssd #0  elem #5 Max # read requests:     1
 ssd #0  elem #5 Avg # write requests:    0.000000
 ssd #0  elem #5 Max # write requests:    0
-ssd #0  elem #5 Physical access time average: 	0.130600
+ssd #0  elem #5 Physical access time average: 		0.130600
+ssd #0  elem #5 Physical access time Delay Fluctuation: 	0.000000
 ssd #0  elem #5 Physical access time std.dev.:	0.000000
 ssd #0  elem #5 Physical access time maximum:	0.130600
 ssd #0  elem #5 Physical access time distribution
@@ -20743,19 +20796,20 @@ ssd #0  elem #5 Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd #0  elem #5 Number of batches:  0
-ssd #0  elem #5 Batch size average: 	0.000000
+ssd #0  elem #5 Batch size average: 		0.000000
 ssd #0  elem #5 Batch size std.dev.:	0.000000
 ssd #0  elem #5 Batch size maximum:	0
 ssd #0  elem #5 Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #5 Instantaneous queue length average: 	1.000000
+ssd #0  elem #5 Instantaneous queue length average: 		1.000000
+ssd #0  elem #5 Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd #0  elem #5 Instantaneous queue length std.dev.:	0.000000
 ssd #0  elem #5 Instantaneous queue length maximum:	1
 ssd #0  elem #5 Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
   31249       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #5 Sub-optimal mapping penalty average: 	0.000000
+ssd #0  elem #5 Sub-optimal mapping penalty average: 		0.000000
 ssd #0  elem #5 Sub-optimal mapping penalty std.dev.:	0.000000
 ssd #0  elem #5 Sub-optimal mapping penalty maximum:	0
 ssd #0  elem #5 Sub-optimal mapping penalty distribution
@@ -20764,7 +20818,8 @@ ssd #0  elem #5 Sub-optimal mapping penalty distribution
 ssd #0  elem #6 Total Requests handled:	31250
 ssd #0  elem #6 Requests per second:   	250.293205
 ssd #0  elem #6 Completely idle time:  	120770.332707   	0.967296
-ssd #0  elem #6 Response time average: 	0.130600
+ssd #0  elem #6 Response time average: 		0.130600
+ssd #0  elem #6 Response time Delay Fluctuation: 	0.000000
 ssd #0  elem #6 Response time std.dev.:	0.000000
 ssd #0  elem #6 Response time maximum:	0.130600
 ssd #0  elem #6 Response time distribution
@@ -20790,7 +20845,7 @@ ssd #0  elem #6 End # requests:          0
 ssd #0  elem #6 Average queue length:    0.000000
 ssd #0  elem #6 Maximum queue length:    1
 ssd #0  elem #6 End queued requests:     0
-ssd #0  elem #6 Queue time average: 	0.000000
+ssd #0  elem #6 Queue time average: 		0.000000
 ssd #0  elem #6 Queue time std.dev.:	0.000000
 ssd #0  elem #6 Queue time maximum:	0
 ssd #0  elem #6 Queue time distribution
@@ -20800,7 +20855,8 @@ ssd #0  elem #6 Avg # read requests:     0.032688
 ssd #0  elem #6 Max # read requests:     1
 ssd #0  elem #6 Avg # write requests:    0.000000
 ssd #0  elem #6 Max # write requests:    0
-ssd #0  elem #6 Physical access time average: 	0.130600
+ssd #0  elem #6 Physical access time average: 		0.130600
+ssd #0  elem #6 Physical access time Delay Fluctuation: 	0.000000
 ssd #0  elem #6 Physical access time std.dev.:	0.000000
 ssd #0  elem #6 Physical access time maximum:	0.130600
 ssd #0  elem #6 Physical access time distribution
@@ -22555,19 +22611,20 @@ ssd #0  elem #6 Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd #0  elem #6 Number of batches:  0
-ssd #0  elem #6 Batch size average: 	0.000000
+ssd #0  elem #6 Batch size average: 		0.000000
 ssd #0  elem #6 Batch size std.dev.:	0.000000
 ssd #0  elem #6 Batch size maximum:	0
 ssd #0  elem #6 Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #6 Instantaneous queue length average: 	1.000000
+ssd #0  elem #6 Instantaneous queue length average: 		1.000000
+ssd #0  elem #6 Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd #0  elem #6 Instantaneous queue length std.dev.:	0.000000
 ssd #0  elem #6 Instantaneous queue length maximum:	1
 ssd #0  elem #6 Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
   31250       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #6 Sub-optimal mapping penalty average: 	0.000000
+ssd #0  elem #6 Sub-optimal mapping penalty average: 		0.000000
 ssd #0  elem #6 Sub-optimal mapping penalty std.dev.:	0.000000
 ssd #0  elem #6 Sub-optimal mapping penalty maximum:	0
 ssd #0  elem #6 Sub-optimal mapping penalty distribution
@@ -22576,7 +22633,8 @@ ssd #0  elem #6 Sub-optimal mapping penalty distribution
 ssd #0  elem #7 Total Requests handled:	31250
 ssd #0  elem #7 Requests per second:   	250.293205
 ssd #0  elem #7 Completely idle time:  	120770.776808   	0.967299
-ssd #0  elem #7 Response time average: 	0.130600
+ssd #0  elem #7 Response time average: 		0.130600
+ssd #0  elem #7 Response time Delay Fluctuation: 	0.000000
 ssd #0  elem #7 Response time std.dev.:	0.000000
 ssd #0  elem #7 Response time maximum:	0.130600
 ssd #0  elem #7 Response time distribution
@@ -22602,7 +22660,7 @@ ssd #0  elem #7 End # requests:          0
 ssd #0  elem #7 Average queue length:    0.000000
 ssd #0  elem #7 Maximum queue length:    1
 ssd #0  elem #7 End queued requests:     0
-ssd #0  elem #7 Queue time average: 	0.000000
+ssd #0  elem #7 Queue time average: 		0.000000
 ssd #0  elem #7 Queue time std.dev.:	0.000000
 ssd #0  elem #7 Queue time maximum:	0
 ssd #0  elem #7 Queue time distribution
@@ -22612,7 +22670,8 @@ ssd #0  elem #7 Avg # read requests:     0.032688
 ssd #0  elem #7 Max # read requests:     1
 ssd #0  elem #7 Avg # write requests:    0.000000
 ssd #0  elem #7 Max # write requests:    0
-ssd #0  elem #7 Physical access time average: 	0.130600
+ssd #0  elem #7 Physical access time average: 		0.130600
+ssd #0  elem #7 Physical access time Delay Fluctuation: 	0.000000
 ssd #0  elem #7 Physical access time std.dev.:	0.000000
 ssd #0  elem #7 Physical access time maximum:	0.130600
 ssd #0  elem #7 Physical access time distribution
@@ -24367,25 +24426,27 @@ ssd #0  elem #7 Physical access time distribution
 2028876.691  	      0  	0.000000  	1.000000
 2049165.458  	      0  	0.000000  	1.000000
 ssd #0  elem #7 Number of batches:  0
-ssd #0  elem #7 Batch size average: 	0.000000
+ssd #0  elem #7 Batch size average: 		0.000000
 ssd #0  elem #7 Batch size std.dev.:	0.000000
 ssd #0  elem #7 Batch size maximum:	0
 ssd #0  elem #7 Batch size distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #7 Instantaneous queue length average: 	1.000000
+ssd #0  elem #7 Instantaneous queue length average: 		1.000000
+ssd #0  elem #7 Instantaneous queue length Delay Fluctuation: 	0.000000
 ssd #0  elem #7 Instantaneous queue length std.dev.:	0.000000
 ssd #0  elem #7 Instantaneous queue length maximum:	1
 ssd #0  elem #7 Instantaneous queue length distribution
    =  1    =  2    =  3    <  6    < 10    < 20    < 40    < 80    <150    150+
   31250       0       0       0       0       0       0       0       0       0 
-ssd #0  elem #7 Sub-optimal mapping penalty average: 	0.000000
+ssd #0  elem #7 Sub-optimal mapping penalty average: 		0.000000
 ssd #0  elem #7 Sub-optimal mapping penalty std.dev.:	0.000000
 ssd #0  elem #7 Sub-optimal mapping penalty maximum:	0
 ssd #0  elem #7 Sub-optimal mapping penalty distribution
    = -1    =  0    =  1    =  2    =  3    =  4    < 10    < 20    <  4      4+
       0       0       0       0       0       0       0       0       0       0 
-ssd #0 Access time average: 	0.130600
+ssd #0 Access time average: 		0.130600
+ssd #0 Access time Delay Fluctuation: 	0.000000
 ssd #0 Access time std.dev.:	0.000000
 ssd #0 Access time maximum:	0.130600
 ssd #0 Access time distribution
@@ -24401,6 +24462,7 @@ CONTROLLER STATISTICS
 
 Controller #0 
 
+NCR 53C700 controller statistics not implemented
 Total controller bus wait time: 0.000000
 
 BUS STATISTICS
@@ -24438,3 +24500,10 @@ Bus #1 (busHBA0) Arbitration wait time distribution
    =  0    <  1    <  2    <  5    < 10    < 15    < 25    < 40    < 60     60+
       0       0       0       0       0       0       0       0       0       0 
 
+
+Start   Time: Mon Sep 18 18:42:56 2023
+
+End     Time: Mon Sep 18 18:43:02 2023
+
+Elapsed Time (seconds): 6.000000
+Simulation End

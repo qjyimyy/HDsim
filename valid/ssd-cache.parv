@@ -122,7 +122,7 @@ disksim_ctlr CTLR0 {
     Cache = disksim_cachedev { 
         Cache block size = 8,
         Cache set assoc = 512,
-        Cache size = 57344, 
+        Cache size = 2097152, 
         Cache policy = 1,
         Cache device = cache_disk,   # device we're caching on
         Cached device = disk,         # device that's being cached

@@ -1,5 +1,5 @@
 // DiskSim SSD support
-// �2008 Microsoft Corporation. All Rights Reserved
+// �2008 Microsoft Corporation. All Rights Reserved
 
 #include "ssd.h"
 #include "ssd_timing.h"
@@ -439,13 +439,13 @@ static int ssd_invoke_element_cleaning(int elem_num, ssd_t *s)
 static void ssd_activate_elem(ssd_t *currdisk, int elem_num)
 {
     ioreq_event *req;
-    ssd_req **read_reqs;
-    ssd_req **write_reqs;
+    ssd_req **read_reqs; //读请求集合
+    ssd_req **write_reqs; //写请求集合
     int i;
-    int read_total = 0;
-    int write_total = 0;
+    int read_total = 0; // 读请求的数量
+    int write_total = 0; // 写请求的数量
     double schtime = 0;
-    int max_reqs;
+    int max_reqs; //一次最多请求数量
     int tot_reqs_issued;
     double max_time_taken = 0;
 
@@ -459,7 +459,7 @@ static void ssd_activate_elem(ssd_t *currdisk, int elem_num)
 
     ASSERT(ioqueue_get_reqoutstanding(elem->queue) == 0);
 
-    // we can invoke cleaning in the background whether there
+    // we can invoke cleaning in the background whether there 后台GC，不管有没有请求，都可以进行GC
     // is request waiting or not
     if (currdisk->params.cleaning_in_background) {
         // if cleaning was invoked, wait until
