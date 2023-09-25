@@ -471,9 +471,9 @@ static void ssd_activate_elem(ssd_t *currdisk, int elem_num)
 
     ASSERT(elem->metadata.reqs_waiting == ioqueue_get_number_in_queue(elem->queue));
 
-    if (elem->metadata.reqs_waiting > 0) {
+    if (elem->metadata.reqs_waiting > 0) {  // 普通GC，element没有空闲页或者空闲页达到一个下限
 
-        // invoke cleaning in foreground when there are requests waiting
+        // invoke cleaning in foreground when there are requests waiting 
         if (!currdisk->params.cleaning_in_background) {
             // if cleaning was invoked, wait until
             // it is over ...
