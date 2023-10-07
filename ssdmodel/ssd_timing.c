@@ -1,5 +1,5 @@
 // DiskSim SSD support
-// �2008 Microsoft Corporation. All Rights Reserved
+// �2008 Microsoft Corporation. All Rights Reserved
 
 #include "ssd.h"
 #include "ssd_timing.h"
@@ -496,13 +496,13 @@ listnode **ssd_pick_parunits(ssd_req **reqs, int total, int elem_num, ssd_elemen
         if (reqs[i]->is_read) {
             // get the logical page number corresponding to this blkno
             lpn = ssd_logical_pageno(reqs[i]->blk, s);
-            prev_page = metadata->lba_table[lpn];
+            prev_page = metadata->lba_table[lpn]; // 根据地址映射表找出对应的页
             ASSERT(prev_page != -1);
-            prev_block = SSD_PAGE_TO_BLOCK(prev_page, s);
-            plane_num = metadata->block_usage[prev_block].plane_num;
-            parunit_num = metadata->plane_meta[plane_num].parunit_num;
+            prev_block = SSD_PAGE_TO_BLOCK(prev_page, s); // 根据页找出对应的块
+            plane_num = metadata->block_usage[prev_block].plane_num; // 这个块所在的plane
+            parunit_num = metadata->plane_meta[plane_num].parunit_num; // 这个plane所在的PU
             reqs[i]->plane_num = plane_num;
-            ll_insert_at_tail(parunits[parunit_num], (void*)reqs[i]);
+            ll_insert_at_tail(parunits[parunit_num], (void*)reqs[i]); // 这个PU处理reqs[i]
             filled ++;
         }
     }
@@ -517,7 +517,7 @@ listnode **ssd_pick_parunits(ssd_req **reqs, int total, int elem_num, ssd_elemen
         // we need to find planes for the writes
         if (!reqs[i]->is_read) {
             int j;
-            int prev_bsn = -1;
+            int prev_bsn = -1; // 块序列号
             int min_valid;
 
             plane_num = -1;
@@ -644,7 +644,7 @@ static double ssd_issue_overlapped_ios(ssd_req **reqs, int total, int elem_num, 
         int active_parunits = 0;
         int op_count = 0;
 
-        // do we still have any request to service?
+        // do we still have any request to service? 找出是否还有活跃的PU，正在执行的PU
         for (i = 0; i < SSD_PARUNITS_PER_ELEM(s); i ++) {
             if (ll_get_size(parunits[i]) > 0) {
                 active_parunits ++;
@@ -706,7 +706,7 @@ static double ssd_issue_overlapped_ios(ssd_req **reqs, int total, int elem_num, 
                     }
                     if (op_count == 1) {
                         r->acctime = parunit_op_cost[i] + ssd_data_transfer_cost(s,s->params.page_size);
-                        r->schtime = parunit_tot_cost[i] + (op_count-1)*ssd_data_transfer_cost(s,s->params.page_size) + r->acctime;
+                        r->schtime = parunit_tot_cost[i] + (op_count-1)*ssd_data_transfer_cost(s,s->params.page_size) + r->acctime; // 请求的调度时间=PU时间+数据传输时间+请求访问时间
                     } else {
                         r->acctime = ssd_data_transfer_cost(s,s->params.page_size);
                         r->schtime = parunit_tot_cost[i] + op_count*ssd_data_transfer_cost(s,s->params.page_size) + parunit_op_cost[i];
@@ -849,7 +849,7 @@ static void ssd_compute_access_time_one_active_page
     }
 
     reqs[0]->acctime = cost;
-    reqs[0]->schtime = cost;
+    reqs[0]->schtime = cost; // 什么时候去调度这个请求
 }
 
 /*

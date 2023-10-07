@@ -629,7 +629,7 @@ static void ssd_media_access_request_element (ioreq_event *curr)
    while (count != 0) {
 
        // find the element (package) to direct the request
-       int elem_num = currdisk->timing_t->choose_element(currdisk->timing_t, blkno);
+       int elem_num = currdisk->timing_t->choose_element(currdisk->timing_t, blkno); // 选择存入的element
        ssd_element *elem = &currdisk->elements[elem_num];
 
        // create a new sub-request for the element
