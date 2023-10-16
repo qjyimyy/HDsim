@@ -131,7 +131,7 @@ static void ssd_send_event_up_path (ioreq_event *curr, double delay)
    int busno;
    int slotno;
 
-   // fprintf (outputfile, "ssd_send_event_up_path - devno %d, type %d, cause %d, blkno %d\n", curr->devno, curr->type, curr->cause, curr->blkno);
+    fprintf (outputfile, "ssd_send_event_up_path - devno %d, type %d, cause %d, blkno %d, flag %d\n", curr->devno, curr->type, curr->cause, curr->blkno, curr->flags);
 
    currdisk = getssd (curr->devno);
 
@@ -154,7 +154,7 @@ static void ssd_send_event_up_path (ioreq_event *curr, double delay)
          //fprintf(stderr,"Multiple bus requestors detected in ssd_send_event_up_path\n");
          /* This should be ok -- counting on the bus module to sequence 'em */
       }
-      if (bus_ownership_get(busno, slotno, curr) == FALSE) {
+      if (bus_ownership_get(busno, slotno, curr) == FALSE) { // 如果当前总线被占用，等一会发送事件
          /* Remember when we started waiting (only place this is written) */
          currdisk->stat.requestedbus = simtime;
       } else {
@@ -187,15 +187,16 @@ static void ssd_check_channel_activity (ssd_t *currdisk)
 {
    while (1) {
        ioreq_event *curr = currdisk->completion_queue;
-       currdisk->channel_activity = curr;
+       currdisk->channel_activity = curr; // channel_activity表示是否有其他操作占用这个channel       
        if (curr != NULL) {
+            fprintf (outputfile, "ssd_check_channel_activity-1 \n");
            currdisk->completion_queue = curr->next;
            if (currdisk->neverdisconnect) {
                /* already connected */
-               if (curr->flags & READ) {
+               if (curr->flags & READ) { 
                    /* transfer data up the line: curr->bcount, which is still set to */
                    /* original requested value, indicates how many blks to transfer. */
-                   curr->type = DEVICE_DATA_TRANSFER_COMPLETE;
+                   curr->type = DEVICE_DATA_TRANSFER_COMPLETE; 
                    ssd_send_event_up_path(curr, (double) 0.0);
                } else {
                    ssd_request_complete (curr);
@@ -207,9 +208,10 @@ static void ssd_check_channel_activity (ssd_t *currdisk)
                ssd_send_event_up_path (curr, currdisk->bus_transaction_latency);
                currdisk->reconnect_reason = DEVICE_ACCESS_COMPLETE;
            }
-       } else {
+       } else { 
            curr = ioqueue_get_next_request(currdisk->queue);
            currdisk->channel_activity = curr;
+           fprintf (outputfile, "ssd_check_channel_activity-2 \n");
            if (curr != NULL) {
                if (curr->flags & READ) {
                    if (!currdisk->neverdisconnect) {
@@ -217,7 +219,7 @@ static void ssd_check_channel_activity (ssd_t *currdisk)
                        curr->type = IO_INTERRUPT_ARRIVE;
                        curr->cause = DISCONNECT;
                        ssd_send_event_up_path (curr, currdisk->bus_transaction_latency);
-                   } else {
+                   } else { 
                        ssd_media_access_request(curr);
                        continue;
                    }
@@ -229,6 +231,7 @@ static void ssd_check_channel_activity (ssd_t *currdisk)
                }
            }
        }
+       fprintf (outputfile, "ssd_check_channel_activity-0 \n");
        break;
    }
 }
@@ -271,6 +274,7 @@ void ssd_bus_delay_complete (int devno, ioreq_event *curr, int sentbusno)
    currdisk = getssd (devno);
    ssd_assert_current_activity(currdisk, curr);
 
+    fprintf (outputfile, "ssd_bus_delay_complete - devno %d, type %d, cause %d, blkno %d, flag %d\n", curr->devno, curr->type, curr->cause, curr->blkno, curr->flags);
    // fprintf (outputfile, "Entered ssd_bus_delay_complete\n");
 
    // EPW: I think the buswait logic doesn't do anything, is confusing, and risks
@@ -296,8 +300,10 @@ void ssd_bus_delay_complete (int devno, ioreq_event *curr, int sentbusno)
    slotno.byte[depth] = slotno.byte[depth] >> 4;
    curr->time = 0.0;
    if (depth == 0) {
-      intr_request ((event *)curr);
+    fprintf (outputfile, "ssd_bus_delay_complete-1 \n");
+      intr_request ((event *)curr); // 如果深度为0，则传输的为事件，开始处理。如果深度不为0，说明总线事件还有嵌套。
    } else {
+    fprintf (outputfile, "ssd_bus_delay_complete-2 \n");
       bus_deliver_event(busno.byte[depth], slotno.byte[depth], curr);
    }
 }
@@ -312,6 +318,7 @@ static void ssd_request_complete(ioreq_event *curr)
    ioreq_event *x;
 
    // fprintf (outputfile, "Entering ssd_request_complete: %12.6f\n", simtime);
+   fprintf (outputfile, "ssd_request_complete - devno %d, type %d, cause %d, blkno %d, flag %d\n", curr->devno, curr->type, curr->cause, curr->blkno, curr->flags);
 
    currdisk = getssd (curr->devno);
    ssd_assert_current_activity(currdisk, curr);
@@ -330,6 +337,7 @@ static void ssd_request_complete(ioreq_event *curr)
 static void ssd_bustransfer_complete (ioreq_event *curr)
 {
    // fprintf (outputfile, "Entering ssd_bustransfer_complete for disk %d: %12.6f\n", curr->devno, simtime);
+   fprintf (outputfile, "ssd_bustransfer_complete - devno %d, type %d, cause %d, blkno %d, flag %d\n", curr->devno, curr->type, curr->cause, curr->blkno, curr->flags);
 
    if (curr->flags & READ) {
       ssd_request_complete (curr);
@@ -471,9 +479,9 @@ static void ssd_activate_elem(ssd_t *currdisk, int elem_num)
 
     ASSERT(elem->metadata.reqs_waiting == ioqueue_get_number_in_queue(elem->queue));
 
-    if (elem->metadata.reqs_waiting > 0) {  // 普通GC，element没有空闲页或者空闲页达到一个下限
+    if (elem->metadata.reqs_waiting > 0) {  
 
-        // invoke cleaning in foreground when there are requests waiting 
+        // invoke cleaning in foreground when there are requests waiting // 普通GC，element没有空闲页或者空闲页达到一个下限
         if (!currdisk->params.cleaning_in_background) {
             // if cleaning was invoked, wait until
             // it is over ...
@@ -562,7 +570,7 @@ static void ssd_activate_elem(ssd_t *currdisk, int elem_num)
                   schtime = read_reqs[i]->schtime;
               }
 
-              stat_update (&currdisk->stat.acctimestats, read_reqs[i]->acctime);
+              stat_update (&currdisk->stat.acctimestats, read_reqs[i]->acctime); // 更新每次请求的访问时间
               read_reqs[i]->org_req->time = simtime + read_reqs[i]->schtime;
               read_reqs[i]->org_req->ssd_elem_num = elem_num;
               read_reqs[i]->org_req->type = DEVICE_ACCESS_COMPLETE;
@@ -641,7 +649,7 @@ static void ssd_media_access_request_element (ioreq_event *curr)
        tmp->bcount = ssd_choose_aligned_count(currdisk->params.page_size, blkno, count);
        //ASSERT(tmp->bcount == currdisk->params.page_size);
 
-       tmp->tempptr2 = curr;
+       tmp->tempptr2 = curr; // tempptr2指向父请求
        blkno += tmp->bcount;
        count -= tmp->bcount;
 
@@ -656,6 +664,8 @@ static void ssd_media_access_request_element (ioreq_event *curr)
 static void ssd_media_access_request (ioreq_event *curr)
 {
     ssd_t *currdisk = getssd(curr->devno);
+
+    fprintf (outputfile, "ssd_media_access_request - devno %d, type %d, cause %d, blkno %d, flag %d\n", curr->devno, curr->type, curr->cause, curr->blkno, curr->flags);
 
     switch(currdisk->params.alloc_pool_logic) {
         case SSD_ALLOC_POOL_PLANE:
@@ -682,6 +692,7 @@ static void ssd_reconnect_done (ioreq_event *curr)
    ssd_t *currdisk;
 
    // fprintf (outputfile, "Entering ssd_reconnect_done for disk %d: %12.6f\n", curr->devno, simtime);
+   fprintf (outputfile, "ssd_reconnect_done - devno %d, type %d, cause %d, blkno %d, flag %d\n", curr->devno, curr->type, curr->cause, curr->blkno, curr->flags);
 
    currdisk = getssd (curr->devno);
    ssd_assert_current_activity(currdisk, curr);
@@ -805,6 +816,7 @@ void ssd_complete_parent(ioreq_event *curr, ssd_t *currdisk)
 
 static void ssd_access_complete_element(ioreq_event *curr)
 {
+    fprintf (outputfile, "ssd_access_complete_element - devno %d, type %d, cause %d, blkno %d, flag %d\n", curr->devno, curr->type, curr->cause, curr->blkno, curr->flags);
    ssd_t *currdisk;
    int elem_num;
    ssd_element  *elem;
@@ -880,6 +892,7 @@ static void ssd_completion_done (ioreq_event *curr)
    ssd_assert_current_activity(currdisk, curr);
 
    // fprintf (outputfile, "Entering ssd_completion for disk %d: %12.6f\n", currdisk->devno, simtime);
+   fprintf (outputfile, "ssd_completion_done - devno %d, type %d, cause %d, blkno %d, flag %d\n", curr->devno, curr->type, curr->cause, curr->blkno, curr->flags);
 
    addtoextraq((event *) curr);
 
@@ -894,6 +907,7 @@ static void ssd_completion_done (ioreq_event *curr)
 static void ssd_interrupt_complete (ioreq_event *curr)
 {
    // fprintf (outputfile, "Entered ssd_interrupt_complete - cause %d\n", curr->cause);
+   fprintf (outputfile, "ssd_interrupt_complete - devno %d, type %d, cause %d, blkno %d, flag %d\n", curr->devno, curr->type, curr->cause, curr->blkno, curr->flags);
 
    switch (curr->cause) {
 

@@ -500,7 +500,7 @@ listnode **ssd_pick_parunits(ssd_req **reqs, int total, int elem_num, ssd_elemen
             ASSERT(prev_page != -1);
             prev_block = SSD_PAGE_TO_BLOCK(prev_page, s); // 根据页找出对应的块
             plane_num = metadata->block_usage[prev_block].plane_num; // 这个块所在的plane
-            parunit_num = metadata->plane_meta[plane_num].parunit_num; // 这个plane所在的PU
+            parunit_num = metadata->plane_meta[plane_num].parunit_num; // 这个plane的PU
             reqs[i]->plane_num = plane_num;
             ll_insert_at_tail(parunits[parunit_num], (void*)reqs[i]); // 这个PU处理reqs[i]
             filled ++;
@@ -666,11 +666,11 @@ static double ssd_issue_overlapped_ios(ssd_req **reqs, int total, int elem_num, 
         for (i = 0; i < SSD_PARUNITS_PER_ELEM(s); i ++) {
             int size;
 
-            size = ll_get_size(parunits[i]);
+            size = ll_get_size(parunits[i]); // 当前PU要处理的请求个数
             if (size > 0) {
                 // this parallel unit has a request to serve
                 ssd_req *r;
-                listnode *n = ll_get_nth_node(parunits[i], 0);
+                listnode *n = ll_get_nth_node(parunits[i], 0);  // 当前PU要处理的第一个请求
 
                 op_count ++;
                 ASSERT(op_count <= active_parunits);
@@ -680,7 +680,7 @@ static double ssd_issue_overlapped_ios(ssd_req **reqs, int total, int elem_num, 
                 lpn = ssd_logical_pageno(r->blk, s);
 
                 if (r->is_read) {
-                    parunit_op_cost[i] = s->params.page_read_latency;
+                    parunit_op_cost[i] = s->params.page_read_latency; // 如果是读操作，PU的操作时间就是配置文件中的page_read_latency
                 } else {
                     int plane_num = r->plane_num;
                     // if this is the last page on the block, allocate a new block

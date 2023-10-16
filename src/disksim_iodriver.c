@@ -215,7 +215,7 @@ void iodriver_schedule(int iodriverno, ioreq_event *curr) {
 
     ASSERT1(curr->type == IO_ACCESS_ARRIVE, "curr->type", curr->type);
 
-    if ((iodrivers[iodriverno]->consttime != 0.0) && (iodrivers[iodriverno]->consttime != IODRIVER_TRACED_QUEUE_TIMES)) {
+    if ((iodrivers[iodriverno]->consttime != 0.0) && (iodrivers[iodriverno]->consttime != IODRIVER_TRACED_QUEUE_TIMES)) { // 触发中断
         curr->type = IO_INTERRUPT;
         if (iodrivers[iodriverno]->consttime > 0.0) {
             curr->time = iodrivers[iodriverno]->consttime;
@@ -229,7 +229,7 @@ void iodriver_schedule(int iodriverno, ioreq_event *curr) {
 
     ctl = iodrivers[iodriverno]->devices[(curr->devno)].ctl;
 
-    if ((ctl) && (ctl->flags & DRIVER_C700)) {
+    if ((ctl) && (ctl->flags & DRIVER_C700)) { // 选择控制器
         if ((ctl->pendio) && ((curr->devno != ctl->pendio->next->devno) || (curr->opid != ctl->pendio->next->opid) || (curr->blkno != ctl->pendio->next->blkno))) {
             curr->next = ctl->pendio->next;
             ctl->pendio->next = curr;
@@ -468,7 +468,7 @@ void iodriver_access_complete(int iodriverno, intr_event *intrp) {
 
     gettimeofday(&startTime, NULL);
     FILE *outputFile;
-    outputFile = fopen("driver_response.txt", "a+");
+    outputFile = fopen("driver_response.txt", "a+"); // 写入driver_response.txt
     fprintf(outputFile, "%f ,opid %d, blkno %d, bcount %d %d\n", req->responsetime, req->opid, req->blkno, req->bcount, req->flags);
     fclose(outputFile);
     gettimeofday(&endTime, NULL);
@@ -675,6 +675,9 @@ void iodriver_interrupt_arrive(int iodriverno, intr_event *intrp) {
     } else {
         intrp->time = 0.0;
     }
+    /* & NOTSTANDALONE, which corresponds to a driver that is actually part of */
+    /* the process-flow model (i.e., a system-level simulation rather than a   */
+    /* standalone storage subsystem simulation). */
     if (iodrivers[iodriverno]->type == STANDALONE) {
         intrp->time += simtime;
         intrp->type = IO_INTERRUPT_COMPLETE;

@@ -263,7 +263,7 @@ void bus_delay(int busno, int devtype, int devno, double delay, ioreq_event *cur
     addtointq((event *)tmp);
 }
 
-void bus_event_arrive(ioreq_event *ptr) {
+void bus_event_arrive(ioreq_event *ptr) { // 函数逻辑仅仅是让收集到一起的总线事件时间减去开始等待时间
     bus_event *curr = (bus_event *)ptr;
 
 #ifdef DEBUG_BUS
