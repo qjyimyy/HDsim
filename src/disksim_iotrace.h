@@ -90,6 +90,8 @@ typedef struct iotrace_info {
    char validate_buffaction[20];
    double accumulated_event_time;
    double lastaccesstime;
+   double ocssd_lastserv;
+   double ocssd_nextinter;
 } iotrace_info_t;
 
 
@@ -113,6 +115,8 @@ typedef struct iotrace_info {
 #define basesmalltime           (disksim->iotrace_info->basesmalltime)
 #define basesimtime             (disksim->iotrace_info->basesimtime)
 #define validate_lastserv       (disksim->iotrace_info->validate_lastserv)
+#define ocssd_lastserv          (disksim->iotrace_info->ocssd_lastserv)
+#define ocssd_nextinter         (disksim->iotrace_info->ocssd_nextinter) 
 #define validate_lastblkno      (disksim->iotrace_info->validate_lastblkno)
 #define validate_lastbcount     (disksim->iotrace_info->validate_lastbcount)
 #define validate_lastread       (disksim->iotrace_info->validate_lastread)

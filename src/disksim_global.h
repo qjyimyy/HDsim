@@ -303,6 +303,7 @@ typedef unsigned u_int;
 #define EMCSYMM 9
 #define EMCBACKEND 10
 #define BATCH 11
+#define OCSSD 12
 #define DEFAULT ASCII
 
 /* Time conversions */
@@ -412,6 +413,13 @@ typedef struct ev {
     char space[DISKSIM_EVENT_SPACESIZE];
 } event;
 
+/**
+ * @brief qiaojiyang: 增加ocssd标准的事件结构
+ * 
+ *  
+ * 增加MP,PU_group,PU,chunkno,分别代表是否使用多plane、PU组号、PU号、chunk号
+ */
+
 typedef struct ioreq_ev {
     double time;
     int type;
@@ -443,6 +451,10 @@ typedef struct ioreq_ev {
     struct ioreq_ev *batch_prev;
     double responsetime;
     int uncached;
+    int MP; // 1表示使用多plane，0表示不用
+    int PU_group; 
+    int PU;
+    int chunkno;
 } ioreq_event;
 
 typedef struct timer_ev {

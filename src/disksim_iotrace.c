@@ -114,6 +114,8 @@ static void iotrace_initialize_iotrace_info() {
     basesimtime = 0.0;
     validate_lastserv = 0.0;
     validate_nextinter = 0.0;
+    ocssd_lastserv = 0.0;
+    ocssd_nextinter = 0.0; // 添加ocssd的下一个请求到达时间
     accumulated_event_time = 0.0;
     lastaccesstime = 0.0;
 }
@@ -159,6 +161,9 @@ void iotrace_set_format(char *formatname) {
     } else if (strcmp(formatname, "batch") == 0) {
         /* ascii traces with added batch information */
         disksim->traceformat = BATCH;
+    } else if (strcmp(formatname, "ocssd") == 0) {
+        /* format of disk ocssd traces */
+        disksim->traceformat = OCSSD;
     } else {
         fprintf(stderr, "Unknown trace format - %s\n", formatname);
         exit(1);
@@ -221,6 +226,71 @@ static int iotrace_read_int32 (FILE *tracefile, int32_t *intP)
 #define iotrace_read_float(a, b) iotrace_read_int32(a, b)
 
 /**
+ * @brief qiaojiyang: 读取 ocssd 格式的 trace
+ * 
+ * @param tracefile 
+ * @param new_event 
+ * @return ioreq_event* 
+ * 假设有rw,MP,PU_group,PU,chunkno,bcount,servtime,nextinter
+ */
+ioreq_event *iotrace_ocssd_get_ioreq_event(FILE *tracefile, ioreq_event *new_event) {
+    char line[201];
+    char rw;
+    double servtime;
+    int MP;
+
+    if(fgets(line, 200, tracefile) == NULL){
+        addtoextraq((event *)new_event);
+        return (NULL);
+    }
+    new_event->time = simtime + (ocssd_nextinter / (double)1000); // 计算当前模拟时间，需要加上间隔时间
+    if (sscanf(line, "%c %d %d %d %d %d %lf %lf\n",
+               &rw,
+               &MP,
+               &new_event->PU_group,
+               &new_event->PU,
+               &new_event->chunkno,
+               &new_event->bcount,
+               &servtime,
+               &ocssd_nextinter) != 8) {
+        fprintf(stderr, "Wrong number of arguments for I/O trace event type\n");
+        ddbg_assert(0);
+        }
+    ocssd_lastserv = servtime / (double)1000;
+    if (rw == 'R') {
+        new_event->flags = READ;
+    } else if (rw == 'W') {
+        new_event->flags = WRITE;
+    } else {
+        fprintf(stderr, "Invalid R/W value: %c\n", rw);
+        exit(1);
+    }
+
+    new_event->blkno = new_event->chunkno;
+    new_event->MP = MP;
+
+    new_event->blkno = new_event->blkno % 17916240; // 设置块号不能大于某个边界
+    
+    if (iodrivers[0]->numdevices == 2) {
+        new_event->devno = 1;       // 跑异构
+    } else if (iodrivers[0]->numdevices == 1) {
+        new_event->devno = 0;       // 跑单独设备
+    }
+
+    new_event->buf = 0;
+    new_event->opid = 0;
+    new_event->cause = 0;
+    new_event->busno = 0;
+    new_event->tempint2 = 0;
+    new_event->tempint1 = 0;
+    //validate_lastblkno = new_event->blkno;
+    //validate_lastbcount = new_event->bcount;
+    //validate_lastread = new_event->flags & READ;
+    return (new_event);
+
+}
+
+/**
  * @brief Cherry: 读取 validate 格式的 trace
  * 
  * @param tracefile 
@@ -247,6 +317,7 @@ ioreq_event *iotrace_validate_get_ioreq_event(FILE *tracefile, ioreq_event *new_
         fprintf(stderr, "Wrong number of arguments for I/O trace event type\n");
         ddbg_assert(0);
     }
+    
     validate_lastserv = servtime / (double)1000;
     if (rw == 'R') {
         new_event->flags = READ;
@@ -257,7 +328,7 @@ ioreq_event *iotrace_validate_get_ioreq_event(FILE *tracefile, ioreq_event *new_
         exit(1);
     }
 
-    new_event->blkno = new_event->blkno % 17916240;
+    new_event->blkno = new_event->blkno % 17916240; // qiaojiyang:与配置文件中Stripe unit的值一样
 
     
     // ADD | Cherry: 一般情况 iodriver 只有一个，当跑异构的时候，numdevices = 2，设置 new_event->devno = 1
@@ -658,6 +729,10 @@ ioreq_event *iotrace_get_ioreq_event(FILE *tracefile, int traceformat, ioreq_eve
         case VALIDATE:
             // 从 validate 格式的 trace 中读取每一个 trace 作为一个 event
             temp = iotrace_validate_get_ioreq_event(tracefile, temp);
+            break;
+        
+        case OCSSD:
+            temp = iotrace_ocssd_get_ioreq_event(tracefile, temp);
             break;
 
         case EMCSYMM:
