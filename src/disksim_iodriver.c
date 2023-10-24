@@ -112,6 +112,7 @@
 #include "modules/modules.h"
 #include <sys/time.h>
 #include <unistd.h>
+#include <stdio.h>
 
 /* read-only globals used during readparams phase */
 static char *statdesc_emptyqueue = "Empty queue delay";
@@ -467,6 +468,16 @@ void iodriver_access_complete(int iodriverno, intr_event *intrp) {
     req = ioqueue_physical_access_done(iodrivers[iodriverno]->devices[devno].queue, req);
 
     gettimeofday(&startTime, NULL);
+
+    // 检测当前目录下是否有driver_response.txt，如果有则删除
+    if(access("driver_response.txt", F_OK) != -1){
+        // 删除
+        if(remove("driver_response.txt") == 0){
+            printf("old driver_response.txt is removed !\n");
+        }else{
+            printf("old driver_response.txt removed failed !\n");
+        }
+    }
     FILE *outputFile;
     outputFile = fopen("driver_response.txt", "a+"); // 写入driver_response.txt
     fprintf(outputFile, "%f ,opid %d, blkno %d, bcount %d %d\n", req->responsetime, req->opid, req->blkno, req->bcount, req->flags);

@@ -497,7 +497,7 @@ static void ssd_activate_elem(ssd_t *currdisk, int elem_num)
             if (currdisk->params.num_parunits == 1) {
                 max_reqs = 1;
             } else {
-                max_reqs = MAX_REQS_ELEM_QUEUE;
+                max_reqs = MAX_REQS_ELEM_QUEUE; // TODO:MAX_REQS_ELEM_QUEUE=100,应该改为parms.num_parunits
             }
         }
 
@@ -555,6 +555,7 @@ static void ssd_activate_elem(ssd_t *currdisk, int elem_num)
             }
         }
 
+        // TODO:这里是先读后写，在这里添加IO调度策略
         if (read_total > 0) {
             // first issue all the read requests (it doesn't matter what we
             // issue first). i chose read because reads are mostly synchronous.
@@ -661,6 +662,55 @@ static void ssd_media_access_request_element (ioreq_event *curr)
    }
 }
 
+/*
+* qiaojiyang:ocssd计算访问时间
+* date:2023.10.18
+*/
+static void ocssd_media_access_request_element (ioreq_event *curr){
+    ssd_t *currdisk = getssd(curr->devno);
+   int blkno = curr->blkno;
+   int count = curr->bcount;
+
+   /* **** CAREFUL ... HIJACKING tempint2 and tempptr2 fields here **** */
+   curr->tempint2 = count;
+   while (count != 0) {
+
+       // find the element (package) to direct the request
+       // 选择存入的element,date:2023.10.18
+       if(curr->PU_group > (currdisk->params.nelements - 1)){
+        fprintf(stderr, "The PU_group index is over the numbers of elements : %d!\n", currdisk->params.nelements);
+        fflush(stderr);
+        exit(1);
+       }
+       int elem_num = curr->PU_group;
+       ssd_element *elem = &currdisk->elements[elem_num];
+
+       // create a new sub-request for the element
+       ioreq_event *tmp = (ioreq_event *)getfromextraq();
+       tmp->devno = curr->devno;
+       tmp->busno = curr->busno;
+       tmp->flags = curr->flags;
+       tmp->blkno = blkno;
+       tmp->bcount = ssd_choose_aligned_count(currdisk->params.page_size, blkno, count); //超过页边界的部分需要分两次执行
+       tmp->PU = curr->PU; // qiaojiyang:子请求拥有和父请求一样的配置，date：2023.10.19
+       //ASSERT(tmp->bcount == currdisk->params.page_size);
+
+       tmp->tempptr2 = curr; // tempptr2指向父请求
+       blkno += tmp->bcount;
+       count -= tmp->bcount;
+
+       elem->metadata.reqs_waiting ++;
+
+       // add the request to the corresponding element's queue
+       ioqueue_add_new_request(elem->queue, (ioreq_event *)tmp);
+       // TODO：在这里将事件中的参数写入到ssd的数据结构中
+       if(curr->MP == 0){
+        elem->num_planes = 1; // 不使用多plane
+       }
+       ssd_activate_elem(currdisk, elem_num);
+   }
+}
+
 static void ssd_media_access_request (ioreq_event *curr)
 {
     ssd_t *currdisk = getssd(curr->devno);
@@ -670,7 +720,12 @@ static void ssd_media_access_request (ioreq_event *curr)
     switch(currdisk->params.alloc_pool_logic) {
         case SSD_ALLOC_POOL_PLANE:
         case SSD_ALLOC_POOL_CHIP:
-            ssd_media_access_request_element(curr);
+            if (disksim->traceformat == 12) {
+                ocssd_media_access_request_element(curr);
+            } else {
+                ssd_media_access_request_element(curr);
+            }
+            
         break;
 
         case SSD_ALLOC_POOL_GANG:

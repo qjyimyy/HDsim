@@ -269,7 +269,7 @@ ioreq_event *iotrace_ocssd_get_ioreq_event(FILE *tracefile, ioreq_event *new_eve
     new_event->blkno = new_event->chunkno;
     new_event->MP = MP;
 
-    new_event->blkno = new_event->blkno % 17916240; // 设置块号不能大于某个边界
+    //new_event->blkno = new_event->blkno % 17916240; // 设置块号不能大于某个边界
     
     if (iodrivers[0]->numdevices == 2) {
         new_event->devno = 1;       // 跑异构

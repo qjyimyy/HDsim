@@ -609,6 +609,175 @@ listnode **ssd_pick_parunits(ssd_req **reqs, int total, int elem_num, ssd_elemen
 
     return parunits;
 }
+/**
+* qiaojiyang:增加ocssd标准选择PU的函数
+* 参数：请求req，请求总数total，elem号，element元数据，ssd
+*/
+listnode **ocssd_pick_parunits(ssd_req **reqs, int total, int elem_num, ssd_element_metadata *metadata, ssd_t *s)
+{
+    int i;
+    int lpn;
+    int prev_page;
+    int prev_block;
+    int plane_num;
+    int parunit_num;
+    listnode **parunits;
+    int filled = 0;
+    int PU = 1;
+
+    // parunits is an array of linked list structures, where
+    // each entry in the array corresponds to one parallel unit
+    // 为PU分配空间，parunits是链表结构,值是当前PU要处理的请求
+    parunits = (listnode **)malloc(SSD_PARUNITS_PER_ELEM(s) * sizeof(listnode *));
+    for (i = 0; i < SSD_PARUNITS_PER_ELEM(s); i ++) {
+        ll_create(&parunits[i]);
+    }
+
+    // first, fill in the reads
+    /*
+    for (i = 0; i < total; i ++) {
+        if (reqs[i]->is_read) {
+            // get the logical page number corresponding to this blkno
+            lpn = ssd_logical_pageno(reqs[i]->blk, s);
+            prev_page = metadata->lba_table[lpn]; // 根据地址映射表找出对应的页
+            ASSERT(prev_page != -1);
+            prev_block = SSD_PAGE_TO_BLOCK(prev_page, s); // 根据页找出对应的块
+            plane_num = metadata->block_usage[prev_block].plane_num; // 这个块所在的plane
+            parunit_num = metadata->plane_meta[plane_num].parunit_num; // 这个plane的PU
+            reqs[i]->plane_num = plane_num;
+            ll_insert_at_tail(parunits[parunit_num], (void*)reqs[i]); // 这个PU处理reqs[i]
+            filled ++;
+        }
+    }
+    */
+    
+    // qiaojiyang:ocssd可以直接读取到物理地址，增加判断条件，date：2023.10.19
+    for (i = 0; i < total; i++) {
+        
+        if (reqs[i]->is_read) {
+            // 判断PU是否合法
+            PU = reqs[i]->org_req->PU;
+            if (PU > (s->params.num_parunits -1)) {
+                fprintf(stderr, "The PU index is over the number of ssd PUs : %d!!!\n", s->params.num_parunits);
+                fflush(stderr);
+                exit(1);
+            }
+            // 计算出逻辑地址对应的plane
+            lpn = ssd_logical_pageno(reqs[i]->blk, s);
+            prev_page = metadata->lba_table[lpn];// 根据地址映射表找出对应的页
+            ASSERT(prev_page != -1);
+            prev_block = SSD_PAGE_TO_BLOCK(prev_page, s); // 根据页找出对应的块 ; // 感觉chunkno应该指这部分，chunk号不应该超过plane中的块数
+            plane_num = metadata->block_usage[prev_block].plane_num; // 这个块所在的plane
+            // 将该PU更新到该plane上
+            metadata->plane_meta[plane_num].parunit_num = PU;
+            reqs[i]->plane_num = plane_num;
+            ll_insert_at_tail(parunits[PU], (void*)reqs[i]); // 这个PU处理reqs[i]
+            filled ++;
+        }
+    }
+
+    // if all the reqs are reads, return
+    if (filled == total) {
+        return parunits;
+    }
+
+    for (i = 0; i < total; i ++) {
+
+        // we need to find planes for the writes
+        if (!reqs[i]->is_read) {
+            int j;
+            int prev_bsn = -1; // 块序列号
+            int min_valid;
+
+            plane_num = -1;
+            lpn = ssd_logical_pageno(reqs[i]->blk, s);
+            prev_page = metadata->lba_table[lpn];
+            ASSERT(prev_page != -1);
+            prev_block = SSD_PAGE_TO_BLOCK(prev_page, s);
+            prev_bsn = metadata->block_usage[prev_block].bsn;
+
+            if (s->params.alloc_pool_logic == SSD_ALLOC_POOL_PLANE) {
+                plane_num = metadata->block_usage[prev_block].plane_num;
+            } else {
+                // find a plane with the max no of free blocks
+                j = metadata->plane_to_write;
+                do {
+                    int active_block;
+                    int active_bsn;
+                    plane_metadata *pm = &metadata->plane_meta[j];
+
+                    active_block = SSD_PAGE_TO_BLOCK(pm->active_page, s);
+                    active_bsn = metadata->block_usage[active_block].bsn;
+
+                    // see if we can write to this block
+                    if ((active_bsn > prev_bsn) ||
+                        ((active_bsn == prev_bsn) && (pm->active_page > (unsigned int)prev_page))) {
+                        int free_pages_in_act_blk;
+                        int k;
+                        int p;
+                        int tmp;
+                        int size;
+                        int additive = 0;
+
+                        p = metadata->plane_meta[j].parunit_num;
+                        size = ll_get_size(parunits[p]);
+
+                        // check if this plane has been already selected for writing
+                        // in this parallel unit
+                        for (k = 0; k < size; k ++) {
+                            ssd_req *r;
+                            listnode *n = ll_get_nth_node(parunits[p], k);
+                            ASSERT(n != NULL);
+
+                            r = ((ssd_req *)n->data);
+
+                            // is this plane has been already selected for writing?
+                            if ((r->plane_num == j) &&
+                                (!r->is_read)) {
+                                additive ++;
+                            }
+                        }
+
+                        // select a plane with the most no of free pages
+                        free_pages_in_act_blk = s->params.pages_per_block - ((pm->active_page%s->params.pages_per_block) + additive);
+                        tmp = pm->free_blocks * s->params.pages_per_block + free_pages_in_act_blk;
+
+                        if (plane_num == -1) {
+                            // this is the first plane that satisfies the above criterion
+                            min_valid = tmp;
+                            plane_num = j;
+                        } else {
+                            if (min_valid < tmp) {
+                                min_valid = tmp;
+                                plane_num = j;
+                            }
+                        }
+                    }
+
+                    // check out the next plane
+                    j = (j+1) % s->params.planes_per_pkg;
+                } while (j != metadata->plane_to_write);
+            }
+
+            if (plane_num != -1) {
+                // start searching from the next plane
+                metadata->plane_to_write = (plane_num+1) % s->params.planes_per_pkg;
+
+                reqs[i]->plane_num = plane_num;
+                parunit_num = metadata->plane_meta[plane_num].parunit_num;
+                ll_insert_at_tail(parunits[parunit_num], (void *)reqs[i]);
+                filled ++;
+            } else {
+                fprintf(stderr, "Error: cannot find a plane to write\n");
+                exit(1);
+            }
+        }
+    }
+
+    ASSERT(filled == total);
+
+    return parunits;
+}
 
 static double ssd_issue_overlapped_ios(ssd_req **reqs, int total, int elem_num, ssd_t *s)
 {
@@ -635,7 +804,12 @@ static double ssd_issue_overlapped_ios(ssd_req **reqs, int total, int elem_num, 
 
     // find the planes to which the reqs are to be issued
     metadata = &(s->elements[elem_num].metadata);
-    parunits = ssd_pick_parunits(reqs, total, elem_num, metadata, s);
+    if (disksim->traceformat == 12) {
+        parunits = ocssd_pick_parunits(reqs, total, elem_num, metadata, s);
+    } else {
+        parunits = ssd_pick_parunits(reqs, total, elem_num, metadata, s);
+    }
+    
 
     // repeat until we've served all the requests
     while (1) {

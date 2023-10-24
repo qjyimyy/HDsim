@@ -243,15 +243,14 @@ ioreq_event *iotrace_ocssd_get_ioreq_event(FILE *tracefile, ioreq_event *new_eve
         return (NULL);
     }
     new_event->time = simtime + (ocssd_nextinter / (double)1000); // 计算当前模拟时间，需要加上间隔时间
-    if (sscanf(line, "%c %d %d %d %d %d %lf %lf\n",
+    if (sscanf(line, "%c %d %d %d %d %lf %lf\n",
                &rw,
-               &PU_group,
-               &PU,
-               &chunk,
-               &sec,
-               &length,
+               &new_event->PU_group,
+               &new_event->PU,
+               &new_event->chunkno,
+               &new_event->bcount,
                &servtime,
-               &ocssd_nextinter) != 8) {
+               &ocssd_nextinter) != 7) {
         fprintf(stderr, "Wrong number of arguments for I/O trace event type\n");
         ddbg_assert(0);
         }

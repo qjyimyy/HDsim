@@ -193,6 +193,61 @@ typedef struct _ssd_element {
    ssd_plane plane[SSD_MAX_PLANES_PER_ELEM];    // an array of flash planes
 } ssd_element;
 
+/**
+* qiaojiyang:添加ocssd_element结构，主要区别是合并block和plane为chunk
+* date:2023.10.18
+*/
+/*
+typedef struct _ocssd_element_metadata {
+    int *lba_table;                 // a table mapping the lba to the physical pages
+                                    // on the chip.
+
+    unsigned char *free_blocks;              // each bit indicates whether a block in the
+                                    // ssd_element is free or in use. number of bits
+                                    // in free_blocks is given by
+                                    // (struct ssd*)->params.blocks_per_element
+
+    unsigned int tot_free_blocks;   // total number of free blocks in the system. i'm
+                                    // having this variable just for convenience. it can be
+                                    // computed from the above free_blocks list.
+
+    unsigned int active_page;       // this points to the next page to write inside an
+                                    // active block.
+
+    plane_metadata plane_meta[SSD_MAX_PLANES_PER_ELEM];
+
+    block_metadata *block_usage;    // contains the number of valid pages in each block.
+                                    // we also store the valid page numbers here. this is useful
+                                    // during cleaning.
+
+    unsigned int bsn;               // block sequence number for this ssd element
+
+    int plane_to_clean;             // which plane to clean?
+    int plane_to_write;             // which plane to write next?
+    int block_alloc_pos;            // start allocating block from this position
+
+    parunit parunits[SSD_MAX_PARUNITS_PER_ELEM];
+
+    int gang_num;                   // the gang to which this element belongs
+    int reqs_waiting;               //
+    int tot_migrations;             //
+    int tot_pgs_migrated;           //
+    double mig_cost;                //
+}
+
+typedef struct _ocssd_element {
+    struct ioq *queue;
+    int media_busy;
+    ocssd_element_metadata metadata;
+    ssd_element_stat stat;
+
+    int pin_busy;
+    int num_chunks;
+    ocssd_chunk chunk[SSD_MAX_PLANES_PER_ELEM*16384]; // 每个element中最多16个plane，每个plane中最多16384个块
+}ocssd_element;
+*/
+
+// 可能上面的不用改
 typedef struct _ssd_elem_number {
     int e:SSD_BITS_ELEMS_PER_GANG;
 } ssd_elem_number;
@@ -372,6 +427,7 @@ typedef struct ssd_info {
    int numssds;
   int ssds_len; /* allocated size of ssds */
 } ssdinfo_t;
+
 
 /* request structure */
 typedef struct _ssd_req {

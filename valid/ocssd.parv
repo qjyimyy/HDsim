@@ -139,7 +139,7 @@ ssdmodel_ssd SSD {
   # vp - number of planes in each flash package (element)
      Planes per package = 8,
 
-     # vp - number of flash blocks in each plane
+     # vp - number of flash blocks in each plane, oc新规则，每个plane的块不能超过16384
      Blocks per plane = 4096,
 
      # vp - how the blocks within an element are mapped on a plane
@@ -150,7 +150,7 @@ ssdmodel_ssd SSD {
      # vp - copy-back enabled (1) or not (0)
      Copy back = 1,
 
-     # how many parallel units are there?
+     # how many parallel units are there? 多少个PU
      # entire elem = 1, two dies = 2, four plane-pairs = 4
      Number of parallel units = 2,
 
@@ -158,8 +158,8 @@ ssdmodel_ssd SSD {
      # each gang = 0, each elem = 1, each plane = 2
      Allocation pool logic = 1,
 
-     # elements are grouped into a gang
-     Elements per gang = 1,
+     # elements are grouped into a gang，多少个gang，也就是elements组
+     Elements per gang = 1, 
 
      # shared bus (1) or shared control (2) gang
      Gang share = 1,
@@ -174,8 +174,9 @@ ssdmodel_ssd SSD {
 #    This gives 2.0 Gbps per lane and with 8 lanes we get about
 
      Bulk sector transfer time =  0,
-
-     Flash chip elements = 8,
+     
+     # 多少个elements
+     Flash chip elements = 8, 
 
      Page size = 8,
 
